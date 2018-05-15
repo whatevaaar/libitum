@@ -11,7 +11,7 @@ public class robot {
     
 
     //Listas de palabras
-    List<String> palabrasMover = Arrays.asList("ir"."mover","caminar", "correr", "avanzar");
+    List<String> palabrasMover = Arrays.asList("ir","mover","caminar", "correr", "avanzar");
     List<String> palabrasPelear = Arrays.asList("golpear", "patear", "machetear");
     List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
 
@@ -19,6 +19,7 @@ public class robot {
     //mover
 
     public void analizarEntrada(String entrada) {
+
         int posicionEspacio= endtrada.indexOf(' '); //Guarda la posición donde se encuentra el espacio
         String verbo= entrada.substring(0,posicionEspacio); //Corta la cadena en donde encuentre el primer espacio. Obligatoriamente debería ser un verbo
         String complemento = endtrada.substring(posicionEspacio+1); //Todo lo que no es el verbo.
@@ -38,8 +39,6 @@ public class robot {
         return;
     }
 
-    public void observar(){ //get_descripcion(de escenario)//
-		}
-    }
+}
 
 
