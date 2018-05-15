@@ -12,6 +12,8 @@ Falta:
   
   *Empezar a definir/crear escenarios a usar
   
+  *Implementar sistema de guardado
+  
   *Implementar sistema de puntuación
   
   *Implementar base de datos
