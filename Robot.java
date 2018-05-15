@@ -6,8 +6,6 @@ import java.util.List;
 public class Robot {
     protected int vida=100;
     protected int escenario=1;
-    Inventario inventario= new Inventario();
-
 
 
 }

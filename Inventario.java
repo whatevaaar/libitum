@@ -1,7 +1,7 @@
 package libitum;
 import java.util.ArrayList;
 public class Inventario {
-    protected ArrayList<String> objetos = new ArrayList<String>();
+    public static ArrayList<String> objetos = new ArrayList<String>();
 
     public void almacenar(String nombre) {
         objetos.add(nombre);
@@ -17,14 +17,5 @@ public class Inventario {
             temp += o + "\n";
         }
         return temp;
-    }
-
-    public static class JuegoApp {
-        public static void main(String[] args){
-
-        }
-        public class Accion{
-
-        }
     }
 }
