@@ -6,11 +6,11 @@ Falta:
 
   *GUI, en su totalidad
   
-  *Construcción/avance del main
+  *Crer el sistema de recolección e inventario
   
-  *Algunos (muchos) elementos de "Robot" pueden/tienen que ser movidos al main
+  *Diseñar el login
   
-  *Empezar a definir/crear escenarios a usar
+  *Diseñar los niveles
   
   *Implementar sistema de guardado
   
