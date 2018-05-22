@@ -46,13 +46,15 @@ public class Demo {
     public static void inicializarObjetos(){
         //*******ESCENARIO 1********* Parte alta bodega
         objEsc1.add("tarjeta");
-        objEsc1.add("Documento");
+        objEsc1.add("documento");
 
         objInutilEsc1.add("Mesa");
         objInutilEsc1.add("Escalera");
 
         descEsc1.add("Estás en la parte alta del almacen");
-        descEsc1.add("Sobre la mesa hay una tarjeta y lo que parece ser un documento.");
+        descEsc1.add("Hay una mesa");
+        descEsc1.add("Hay una tarjeta sobre la mesa.");
+        descEsc1.add("Hay lo que parece ser un documento sobre la mesa.");
         descEsc1.add("Hay unas escaleras que van a la parte baja del almacén");
 
         escenario1.setDirecciones(false , true, false , false);
