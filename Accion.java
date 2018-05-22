@@ -6,11 +6,14 @@ import java.util.Scanner;
 
 public class Accion {
     //Listas de palabras
-    private final List<String> palabrasMover = Arrays.asList("ir","caminar", "correr", "avanzar", "correr");
+    private final List<String> palabrasMover = Arrays.asList("ir","caminar", "derrar","correr", "avanzar", "correr");
+    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "subir", "bajar");
     private final List<String> palabrasPelear = Arrays.asList("golpear", "patear", "machetear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este");
+
+    private Robot robot;
     private String instruccion;
     private String verbo;
     private String complemento;
@@ -18,8 +21,9 @@ public class Accion {
     private escenario escenarioActual = null;
 
     //Constructor que es llamado en el momento cada que el usuario ingresa un texto en la consola
-    public Accion(String instruccion){
+    public Accion(String instruccion, Robot robot){
         this.instruccion = instruccion;
+        this.robot = robot;
         this.prepararString();
         this.analizarEntrada();
     }
@@ -41,7 +45,7 @@ public class Accion {
         if (palabrasMover.contains(verbo)) { mover(); } //Se empiezan a checar las listas para ver si en alguna se encuentra el verbo ingresado
         else if(palabrasObservar.contains(verbo)) { observar(); }//En caso de que se encuentre, se manda a la función indicada el complemento de la entrada
         else if (palabrasPelear.contains(verbo)) { pelear(); } // " " " llama a pelear
-        else if(palabrasRecolectar.contains(verbo)){recolectar();}
+        else if(palabrasRecolectar.contains(verbo)){recolectar(inventario, complemento, escenario);}
         else{System.out.println("No entiendo esa accion");}
 
     }
@@ -93,25 +97,20 @@ public class Accion {
         }
     }
 
-    public void recolectar(){ //Método para almacenar en el inventario
-        Inventario inventario = new Inventario();
-        SubEscenario escenario = new SubEscenario();
-        for(int count = 0; count < escenario.objetosAlmacenables.size(); count++){  //Itera en los objetos Almacenables del escenario
-            if(complemento.contains(escenario.objetosAlmacenables.get(count))) { inventario.objetos.add(complemento); return;} //Si la instruccion contiene un objeto almacenable disponible, lo añade al inventario
-            else{continue;} //Si no encuentra una coincidencia vuelve a iterar
-        }
-        for (int count = 0; count < escenario.objetosExtra.size(); count++){ //Verifica si el objeto que se quiere recolectar es un objeto de decoracion solamente
-            if (complemento.contains(escenario.objetosExtra.get(count))){System.out.println("No puedes recolectar ese objeto"); return;} //Caso afirmativo
-            else { continue;} //Caso negativo, sigue iterando
-        }
-        System.out.println("No entiendo que quieres recolectar");
+    public void recolectar(Inventario inventario, String complemento, Escenario escenario){ //Método para almacenar en el inventario
+    		if(escenario.checarExistencia(complemento))	{
+    			inventario.almacenar(complemento);
+    			System.out.println(complemento + "recogido");
+            	return;
+    		}
+    		else  {System.out.println("No puedes recoger eso");	return;}
     }
 
 
     public void pelear(){}
 
-    public void Ubicarse(){
-        posicionActual = Robot.escenario; //Obtiene la posicion actual del robot
+    public void Ubicarse(Robot robot){
+        posicionActual = robot.escenario; //Obtiene la posicion actual del robot
         GenerarEscenario(); //Obtiene el escenario actual del robot
     }
 
