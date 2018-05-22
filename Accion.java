@@ -1,4 +1,3 @@
-package libitum;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +9,7 @@ public class Accion {
     private final List<String> palabrasInteractuar = Arrays.asList("abrir", "subir", "bajar");
     private final List<String> palabrasPelear = Arrays.asList("golpear", "patear", "machetear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
-    private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar");
+    private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este");
 
     private Robot robot;
@@ -41,11 +40,11 @@ public class Accion {
         }else{ //Si solo es una palabra en la instruccion se asume que es un verbo
             verbo = instruccion;
         }
-
+        Ubicarse();
         if (palabrasMover.contains(verbo)) { mover(); } //Se empiezan a checar las listas para ver si en alguna se encuentra el verbo ingresado
         else if(palabrasObservar.contains(verbo)) { observar(); }//En caso de que se encuentre, se manda a la función indicada el complemento de la entrada
         else if (palabrasPelear.contains(verbo)) { pelear(); } // " " " llama a pelear
-        else if(palabrasRecolectar.contains(verbo)){recolectar(inventario, complemento, escenario);}
+        else if(palabrasRecolectar.contains(verbo)){recolectar(robot.inventario, complemento, escenarioActual);}
         else{System.out.println("No entiendo esa accion");}
 
     }
@@ -97,10 +96,10 @@ public class Accion {
         }
     }
 
-    public void recolectar(Inventario inventario, String complemento, Escenario escenario){ //Método para almacenar en el inventario
-    		if(escenario.checarExistencia(complemento))	{
+    public void recolectar(Inventario inventario, String complemento, escenario escenarioA){ //Método para almacenar en el inventario
+    		if(escenarioA.checarExistencia(complemento))	{
     			inventario.almacenar(complemento);
-    			System.out.println(complemento + "recogido");
+    			System.out.println("recogido");
             	return;
     		}
     		else  {System.out.println("No puedes recoger eso");	return;}
@@ -109,7 +108,7 @@ public class Accion {
 
     public void pelear(){}
 
-    public void Ubicarse(Robot robot){
+    public void Ubicarse(){
         posicionActual = robot.escenario; //Obtiene la posicion actual del robot
         GenerarEscenario(); //Obtiene el escenario actual del robot
     }
