@@ -10,6 +10,7 @@ public class Accion {
     private final List<String> palabrasPelear = Arrays.asList("golpear", "patear", "machetear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
+    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","salir");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este");
 
     private Robot robot;
@@ -45,13 +46,14 @@ public class Accion {
         else if(palabrasObservar.contains(verbo)) { observar(); }//En caso de que se encuentre, se manda a la función indicada el complemento de la entrada
         else if (palabrasPelear.contains(verbo)) { pelear(); } // " " " llama a pelear
         else if(palabrasRecolectar.contains(verbo)){recolectar(robot.inventario, complemento, escenarioActual);}
-        else{System.out.println("No entiendo esa accion");}
+        else if (palabrasEspeciales.contains(verbo)) { especiales(verbo); }
+        else{System.out.println("No entiendo esa acción");}
 
     }
 
     public void mover(){ //Verifica si en el complemento existe una direccion cardinal, de ser asi realiza la acción.
         if(complemento == null){ //Verifica si existe un complemento despues del verbo de movimiento, de no ser así pregunta a donde se quiere mover
-            System.out.println("A donde quieres ir?");
+            System.out.println("¿A dónde quieres ir?");
             System.out.print(">: ");
             Scanner entradaEscanner = new Scanner(System.in);
             String entradaTeclado = entradaEscanner.nextLine();
@@ -85,6 +87,12 @@ public class Accion {
         }
     }
 
+    public void especiales(String esp){
+        switch (esp){
+            case "inventario": System.out.println(robot.inventario.mostrar()); break;
+        }
+    }
+
     public void observar(){
         if (complemento == null){
             Ubicarse();
@@ -100,6 +108,7 @@ public class Accion {
     		if(escenarioA.checarExistencia(complemento))	{
     			inventario.almacenar(complemento);
     			System.out.println("recogido");
+                escenarioA.recogerObjeto(complemento);
             	return;
     		}
     		else  {System.out.println("No puedes recoger eso");	return;}

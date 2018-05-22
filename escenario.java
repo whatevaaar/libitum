@@ -64,14 +64,10 @@ public class escenario {
     }
 
     //Establece la oración respuesta en caso de que no se pueda mover en cierta direccion en un escenario
-    public void setNegativaMovimiento(String negativa){
-        negativaMovimiento = negativa;
-    }
+    public void setNegativaMovimiento(String negativa){ negativaMovimiento = negativa; }
 
     //Devuelve la negativa de movimiento
-    public String getNegativaMovimiento(){
-        return negativaMovimiento;
-    }
+    public String getNegativaMovimiento(){ return negativaMovimiento; }
 
 
 

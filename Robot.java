@@ -7,3 +7,4 @@ public class Robot {
     public static int escenario = 2;
     Inventario inventario = new Inventario();
 }
+ 
