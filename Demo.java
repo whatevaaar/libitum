@@ -1,5 +1,3 @@
-package libitum;
-
 import java.util.ArrayList;
 
 public class Demo {
@@ -61,6 +59,7 @@ public class Demo {
 
         escenario1.setNegativaMovimiento("No hay salida en esa direccion");
         escenario1.setDescripciones(descEsc1);
+        escenario1.setObjetosAgarrables(objEsc1);
 
         //*******ESCENARIO 2********* Parte baja bodega
         objInutilEsc2.add("Escalera");
@@ -74,6 +73,8 @@ public class Demo {
 
         escenario2.setNegativaMovimiento("No hay salida en esa direccion");
         escenario2.setDescripciones(descEsc2);
+        escenario2.setObjetosAgarrables(objEsc2);
+
 
         //*******ESCENARIO 3********* "Vertedero Robots"
 

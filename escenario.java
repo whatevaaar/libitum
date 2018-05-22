@@ -1,36 +1,7 @@
-package libitum;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 
 public class escenario {
-    /*
-    //las características dependeran del número del escenario
-    private int numescenario;
-    private String nomesce;
-    private ArrayList<SubEscenario> subEscenarios = new ArrayList<>();
-    private String descripesce;
-
-    //CONSTRUCTOR
-    public Escenario(SubEscenario...subEscenarios){
-        for (SubEscenario prueba : subEscenarios){
-            this.subEscenarios.add(prueba);
-        }
-    }
-
-    //SETTERS Y GETTERS
-    public void setNumescenario() {}
-    public int getNumescenario(){ return numescenario;}
-
-    public void setNomesce(){}
-    public String getNomesce(){return nomesce;}
-
-    public void setDescripesce(String desc){}
-
-    public String getDescripesce()
-    {
-        return descripesce;
-    } */
 
     //las características dependeran del núemero del escenario
     public int numID; //id del escenario
@@ -66,11 +37,11 @@ public class escenario {
 
         //Usamos un objeto iterador de la biblioteca de Java para poder buscar y eliminar la oración que contiene la descripción
         //que menciona al objeto seguramente (sin causar errores de memoria)
-        Iterator itr = this.descripciones.iterator();
+        Iterator<String> itr = this.descripciones.iterator();
 
 
         while(itr.hasNext()){
-            String temp = (String) itr.next(); //Almacenamos en una variable temporal la String a analizar
+            String temp = itr.next(); //Almacenamos en una variable temporal la String a analizar
             if (temp.contains(obj)){
                 itr.remove();//Se elimina la descripción que involucra al objeto
                 this.objetos.remove(obj); //Se elimina el objeto de la lista de objetos agarrables
@@ -78,10 +49,12 @@ public class escenario {
         }
         return false; //El valor de regreso sólo es para confirmar el uso de la función, no se utiliza en el código.
     }
+
     //Agrega las descripcione establecidas para cierto escenario
-    public void setDescripciones(ArrayList descripciones){
-        this.descripciones = descripciones;
-    }
+    public void setDescripciones(ArrayList<String> descripciones){ this.descripciones.addAll(descripciones); }
+
+    public void setObjetosAgarrables(ArrayList<String> objA){ this.objetos.addAll(objA); }
+
 
     //Devuelve las descripciones de un escenario
     public String getDescripcion() { //Regresa la descripción del escenario
