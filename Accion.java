@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -10,6 +11,7 @@ public class Accion {
     private final List<String> palabrasPelear = Arrays.asList("golpear", "patear", "machetear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
+    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","salir");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este");
 
     private Robot robot;
@@ -45,6 +47,7 @@ public class Accion {
         else if(palabrasObservar.contains(verbo)) { observar(); }//En caso de que se encuentre, se manda a la función indicada el complemento de la entrada
         else if (palabrasPelear.contains(verbo)) { pelear(); } // " " " llama a pelear
         else if(palabrasRecolectar.contains(verbo)){recolectar(robot.inventario, complemento, escenarioActual);}
+        else if (palabrasEspeciales.contains(verbo)) { especiales(verbo); }
         else{System.out.println("No entiendo esa acción");}
 
     }
@@ -85,6 +88,32 @@ public class Accion {
         }
     }
 
+    public void especiales(String esp){
+        switch (esp){
+            case "inventario": System.out.println(robot.inventario.mostrar()); break;
+            case "guardar": guardar(robot);
+        }
+    }
+
+    public void guardar(Robot robot){
+        
+        String escenarioRobot = String.valueOf(robot.getEscenario());
+        String vidaRobot = String.valueOf(robot.getVida());
+
+        try {
+        PrintWriter escritor = new PrintWriter("save.txt");
+        escritor.println(escenarioRobot);
+        escritor.println(vidaRobot);
+        escritor.println(robot.inventario.codificar());
+        escritor.close();  
+        }
+    
+    catch (java.io.FileNotFoundException ex)  {
+        System.out.println("Woops algo salió mal omg ");
+        }
+        
+    }
+
     public void observar(){
         if (complemento == null){
             Ubicarse();
@@ -110,7 +139,7 @@ public class Accion {
     public void pelear(){}
 
     public void Ubicarse(){
-        posicionActual = robot.escenario; //Obtiene la posicion actual del robot
+        posicionActual = robot.getEscenario(); //Obtiene la posicion actual del robot
         GenerarEscenario(); //Obtiene el escenario actual del robot
     }
 
