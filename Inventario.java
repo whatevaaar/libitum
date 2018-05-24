@@ -13,4 +13,20 @@ public class Inventario {
         for (String o : objetos) { temp += o + "\n";}
         return temp;
     }
+
+    public String codificar(){ //Codifica los elementos del inventario para poder ser leídos por el sistema de guardado
+        String temp = "";
+        for (String o : objetos) { temp.concat(guiaCodificar(o) ); }
+        return temp;
+    }
+
+    public String guiaCodificar (String objeto) { //Guía de codifcar, actualizar cuando se agreguen objetos agarrables.
+        switch(objeto){
+            case "tarjeta": return "1";
+            case "documento": return "d";
+
+        }
+
+        return null;
+    }
 }

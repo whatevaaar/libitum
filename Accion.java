@@ -1,3 +1,4 @@
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -90,7 +91,27 @@ public class Accion {
     public void especiales(String esp){
         switch (esp){
             case "inventario": System.out.println(robot.inventario.mostrar()); break;
+            case "guardar": guardar(robot);
         }
+    }
+
+    public void guardar(Robot robot){
+        
+        String escenarioRobot = String.valueOf(robot.getEscenario());
+        String vidaRobot = String.valueOf(robot.getVida());
+
+        try {
+        PrintWriter escritor = new PrintWriter("save.txt");
+        escritor.println(escenarioRobot);
+        escritor.println(vidaRobot);
+        escritor.println(robot.inventario.codificar());
+        escritor.close();  
+        }
+    
+    catch (java.io.FileNotFoundException ex)  {
+        System.out.println("Woops algo salió mal omg ");
+        }
+        
     }
 
     public void observar(){
@@ -118,7 +139,7 @@ public class Accion {
     public void pelear(){}
 
     public void Ubicarse(){
-        posicionActual = robot.escenario; //Obtiene la posicion actual del robot
+        posicionActual = robot.getEscenario(); //Obtiene la posicion actual del robot
         GenerarEscenario(); //Obtiene el escenario actual del robot
     }
 
