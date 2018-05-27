@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +13,7 @@ public class Accion {
     private final List<String> palabrasPelear = Arrays.asList("golpear", "patear", "machetear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
-    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","salir");
+    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","salir","ayuda");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este");
 
     private Robot robot;
@@ -43,11 +45,18 @@ public class Accion {
             verbo = instruccion;
         }
         Ubicarse();
+
+        //Busca en la lista de palabras...
         if (palabrasMover.contains(verbo)) { mover(); } //Se empiezan a checar las listas para ver si en alguna se encuentra el verbo ingresado
+        
         else if(palabrasObservar.contains(verbo)) { observar(); }//En caso de que se encuentre, se manda a la función indicada el complemento de la entrada
+        
         else if (palabrasPelear.contains(verbo)) { pelear(); } // " " " llama a pelear
+        
         else if(palabrasRecolectar.contains(verbo)){recolectar(robot.inventario, complemento, escenarioActual);}
+        
         else if (palabrasEspeciales.contains(verbo)) { especiales(verbo); }
+        
         else{System.out.println("No entiendo esa acción");}
 
     }
@@ -58,6 +67,7 @@ public class Accion {
             System.out.print(">: ");
             Scanner entradaEscanner = new Scanner(System.in);
             String entradaTeclado = entradaEscanner.nextLine();
+            entradaEscanner.close();
             instruccion = entradaTeclado;
             prepararString();
             complemento = instruccion;
@@ -91,10 +101,24 @@ public class Accion {
     public void especiales(String esp){
         switch (esp){
             case "inventario": System.out.println(robot.inventario.mostrar()); break;
-            case "guardar": guardar(robot);
+            case "guardar": guardar(robot); break;
+            case "cargar": cargar(robot); break;
+            case "ayuda": mensajeAyuda(); break;
+            case "salir": System.exit(0);
         }
     }
 
+    public void mensajeAyuda() {
+        String mensaje = 
+                        "¡Bienvenido a Libitum!\n"+
+                        "Libitum es un juego basado en texto\n\n"+
+                        "Algunos comandos útiles:\n"+
+                        "ver : Da una descripción de tus alrededores\n"+
+                        "guardar : guarda partida\ncargar : cargar partida\n"+
+                        "inventario : muestra items de tu inventario\nsalir : salir del juego"+
+                            "";
+        System.out.println(mensaje);
+    }
     public void guardar(Robot robot){
         
         String escenarioRobot = String.valueOf(robot.getEscenario());
@@ -111,8 +135,27 @@ public class Accion {
     catch (java.io.FileNotFoundException ex)  {
         System.out.println("Woops algo salió mal omg ");
         }
+    System.out.println("¡Partida guardada!");
         
     }
+
+    public void cargar(Robot robot) {
+        try{
+
+            BufferedReader lector = new BufferedReader(new FileReader("save.txt"));
+            int nuevoEscenario = Integer.valueOf(lector.readLine());
+            int nuevaVida = Integer.valueOf(lector.readLine());
+            robot.inventario.decodificar(lector.readLine());
+            robot.setEscenario(nuevoEscenario);
+            robot.setVida(nuevaVida);
+            }catch (Exception e){//Manejo de excepción
+              System.err.println("Archivo de guardado no encontrado");
+            }
+            System.out.println("¡Partida cargada exitosamente!");
+            
+    }
+
+
 
     public void observar(){
         if (complemento == null){
