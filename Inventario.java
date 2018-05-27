@@ -16,7 +16,7 @@ public class Inventario {
 
     public String codificar(){ //Codifica los elementos del inventario para poder ser leídos por el sistema de guardado
         String temp = "";
-        for (String o : objetos) { temp.concat(guiaCodificar(o) ); }
+        for (String o : objetos) { temp += guiaCodificar(o);}
         return temp;
     }
 
@@ -24,9 +24,19 @@ public class Inventario {
         switch(objeto){
             case "tarjeta": return "1";
             case "documento": return "d";
-
-        }
-
-        return null;
+        }   return null;
     }
+    
+    public void decodificar(String codigo) {
+        for (char c : codigo.toCharArray()) {
+            objetos.add(guiaDecodificar(c));
+        }
+    }
+    public String guiaDecodificar (char caracter) { //Guía para decodifcar, actualizar cuando se agreguen objetos agarrables.
+        switch(caracter){
+            case '1': return "tarjeta";
+            case 'd': return "documento";
+        }   return null;
+    }
+
 }
