@@ -8,7 +8,7 @@ Falta:
     
   *Diseñar el login
   
-  *Diseñar los niveles
+  *Diseño los niveles
     
   *Implementar sistema de puntuación
   
