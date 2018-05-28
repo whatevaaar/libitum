@@ -1,4 +1,3 @@
-package libitum;
 import java.util.ArrayList;
 
 public class Demo {
@@ -58,6 +57,7 @@ public class Demo {
         descEsc1.add("Hay lo que parece ser un documento sobre la mesa.");
         descEsc1.add("Hay unas escaleras que van a la parte baja del almacén");
 
+
         escenario1.setDirecciones(false , false, false , false);
 
         escenario1.setNegativaMovimiento("No hay salida en esa direccion");
@@ -73,6 +73,7 @@ public class Demo {
         descEsc2.add("Hay  unas escaleras, que van a la parte alta del almacén");
 
         escenario2.setDirecciones(false, false, false, false);
+
 
         escenario2.setNegativaMovimiento("No hay salida en esa direccion");
         escenario2.setDescripciones(descEsc2);

@@ -1,4 +1,3 @@
-package libitum;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -18,12 +17,14 @@ public class escenario {
     //private String direccionPuerta;
     //private String direccionEscalera;
 
+
     public escenario (int id, String nombre,ArrayList<String> objetosObtenibles, ArrayList<String> objetosEscenario,ArrayList<String> descripciones){ //Constructor de la clase
         numID=id;
         objetos.addAll(objetosObtenibles); //.addall copia todos los elementos de la lista recibida y las traspasa a la lista objetivo
         this.descripciones.addAll(descripciones);
         nomEs += nombre;
-        this.objetosEscenario = objetosEscenario;
+
+        this.objetosEscenario.addAll(objetosEscenario);
     }
     //Establece las salidas que puede tener cierto escenario
     public void setDirecciones(boolean norte, boolean sur, boolean oeste, boolean este){
@@ -39,8 +40,6 @@ public class escenario {
     public boolean checarExistenciaObjetosRelleno(String obj){
             return objetosEscenario.contains(obj);
         }
-
-
     public boolean recogerObjeto(String obj) {
 
         //Usamos un objeto iterador de la biblioteca de Java para poder buscar y eliminar la oración que contiene la descripción
@@ -62,7 +61,6 @@ public class escenario {
     public void setDescripciones(ArrayList<String> descripciones){ this.descripciones.addAll(descripciones); }
 
     public void setObjetosAgarrables(ArrayList<String> objA){ this.objetos.addAll(objA); }
-
 
     //Devuelve las descripciones de un escenario
     public String getDescripcion() { //Regresa la descripción del escenario
@@ -89,6 +87,7 @@ public class escenario {
     //public void setDireccionPuerta(String direccion){direccionPuerta = direccion;}
     //Devuelve la direccion a la que direige la puerta
    // public String getDireccionPuerta(){return direccionPuerta;}
+
 
 
     //Verifica si el movimiento que se quiere hacer es válido, segun el diseño del escenario
