@@ -9,13 +9,14 @@ import java.util.Scanner;
 public class Accion {
     //Listas de palabras
     private final List<String> palabrasMover = Arrays.asList("ir","caminar", "derrar","correr", "avanzar", "correr");
+
     private final List<String> palabrasInteractuar = Arrays.asList("abrir", "subir", "bajar");
     private final List<String> palabrasPelear = Arrays.asList("golpear", "patear", "machetear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
     private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","salir","ayuda");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este");
-
+  
     private Robot robot;
     private String instruccion;
     private String verbo;
@@ -67,6 +68,7 @@ public class Accion {
             System.out.print(">: ");
             Scanner entradaEscanner = new Scanner(System.in);
             String entradaTeclado = entradaEscanner.nextLine();
+
             entradaEscanner.close();
             instruccion = entradaTeclado;
             prepararString();
@@ -156,7 +158,6 @@ public class Accion {
     }
 
 
-
     public void observar(){
         if (complemento == null){
             Ubicarse();
@@ -178,11 +179,26 @@ public class Accion {
     		else  {System.out.println("No puedes recoger eso");	return;}
     }
 
+    public void interactuar(){
+        Ubicarse();
+        switch (verbo){
+            case "subir": if (escenarioActual.checarExistenciaObjetosRelleno("escalera")){escenarioActual.salidaNorte = true; complemento = "norte"; mover();}
+                          else {System.out.println("No hay ninguna escalera");} break;
+            case "bajar": if (escenarioActual.checarExistenciaObjetosRelleno("escalera")){escenarioActual.salidaSur = true; complemento = "sur"; mover();}
+                          else {System.out.println("No hay ninguna escalera");} break;
+            case "abrir": if (escenarioActual.checarExistenciaObjetosRelleno("puerta")){escenarioActual.salidaEste = true; System.out.println("Puerta abierta");}
+                          else {System.out.println("No hay ninguna puerta");} break;
+            case "cerrar": if (escenarioActual.checarExistenciaObjetosRelleno("puerta")){escenarioActual.salidaEste = false; System.out.println("Puerta cerrada");}
+                           else {System.out.println("No hay ninguna puerta");} break;
+        }
+    }
 
     public void pelear(){}
 
     public void Ubicarse(){
+
         posicionActual = robot.getEscenario(); //Obtiene la posicion actual del robot
+
         GenerarEscenario(); //Obtiene el escenario actual del robot
     }
 

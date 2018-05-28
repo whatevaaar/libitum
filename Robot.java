@@ -7,7 +7,6 @@ public class Robot {
     public static int escenario = 2;
     Inventario inventario = new Inventario();
 
-
     public int getEscenario() { return escenario;} //Regresa el escenario
 
     public int getVida() { return vida;} //Regresa la vida

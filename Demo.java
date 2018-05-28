@@ -49,7 +49,7 @@ public class Demo {
         objEsc1.add("documento");
 
         objInutilEsc1.add("Mesa");
-        objInutilEsc1.add("Escalera");
+        objInutilEsc1.add("escalera");
 
         descEsc1.add("Estás en la parte alta del almacen");
         descEsc1.add("Hay una mesa");
@@ -57,21 +57,23 @@ public class Demo {
         descEsc1.add("Hay lo que parece ser un documento sobre la mesa.");
         descEsc1.add("Hay unas escaleras que van a la parte baja del almacén");
 
-        escenario1.setDirecciones(false , true, false , false);
+
+        escenario1.setDirecciones(false , false, false , false);
 
         escenario1.setNegativaMovimiento("No hay salida en esa direccion");
         escenario1.setDescripciones(descEsc1);
         escenario1.setObjetosAgarrables(objEsc1);
 
         //*******ESCENARIO 2********* Parte baja bodega
-        objInutilEsc2.add("Escalera");
-        objInutilEsc2.add("Puerta");
+        objInutilEsc2.add("escalera");
+        objInutilEsc2.add("puerta");
 
-        descEsc2.add("Te encuentras en un almacén.");
+        descEsc2.add("Te encuentras en la planta baja de un almacén.");
         descEsc2.add("A la derecha hay una puerta abierta ");
         descEsc2.add("Hay  unas escaleras, que van a la parte alta del almacén");
 
-        escenario2.setDirecciones(true, false, false, true);
+        escenario2.setDirecciones(false, false, false, false);
+
 
         escenario2.setNegativaMovimiento("No hay salida en esa direccion");
         escenario2.setDescripciones(descEsc2);

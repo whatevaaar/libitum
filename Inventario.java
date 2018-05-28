@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 public class Inventario {
     public static ArrayList<String> objetos = new ArrayList<>();
-
     //Método para agregar objetos al inventario
     public void almacenar(String nombre) { objetos.add(nombre);}
 

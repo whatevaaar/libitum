@@ -9,17 +9,21 @@ public class escenario {
     ArrayList<String> objetos = new ArrayList<String>(); //Lista que incluye los posibles objetos agarrables
     ArrayList<String> objetosEscenario = new ArrayList<String>(); //Lista de objetos que no se pueden recoger
     ArrayList<String> descripciones = new ArrayList<String>();
-    private boolean salidaNorte;
-    private boolean salidaSur;
-    private boolean salidaEste;
-    private boolean salidaOeste;
+    boolean salidaNorte;
+    boolean salidaSur;
+    boolean salidaEste;
+    boolean salidaOeste;
     private String negativaMovimiento;
+    //private String direccionPuerta;
+    //private String direccionEscalera;
+
 
     public escenario (int id, String nombre,ArrayList<String> objetosObtenibles, ArrayList<String> objetosEscenario,ArrayList<String> descripciones){ //Constructor de la clase
         numID=id;
         objetos.addAll(objetosObtenibles); //.addall copia todos los elementos de la lista recibida y las traspasa a la lista objetivo
         this.descripciones.addAll(descripciones);
         nomEs += nombre;
+
         this.objetosEscenario.addAll(objetosEscenario);
     }
     //Establece las salidas que puede tener cierto escenario
@@ -33,6 +37,9 @@ public class escenario {
         return objetos.contains(obj) ? true: false;
     }
 
+    public boolean checarExistenciaObjetosRelleno(String obj){
+            return objetosEscenario.contains(obj);
+        }
     public boolean recogerObjeto(String obj) {
 
         //Usamos un objeto iterador de la biblioteca de Java para poder buscar y eliminar la oración que contiene la descripción
@@ -55,7 +62,6 @@ public class escenario {
 
     public void setObjetosAgarrables(ArrayList<String> objA){ this.objetos.addAll(objA); }
 
-
     //Devuelve las descripciones de un escenario
     public String getDescripcion() { //Regresa la descripción del escenario
         String temp = "";
@@ -64,10 +70,23 @@ public class escenario {
     }
 
     //Establece la oración respuesta en caso de que no se pueda mover en cierta direccion en un escenario
-    public void setNegativaMovimiento(String negativa){ negativaMovimiento = negativa; }
+    public void setNegativaMovimiento(String negativa){
+        negativaMovimiento = negativa;
+    }
 
     //Devuelve la negativa de movimiento
-    public String getNegativaMovimiento(){ return negativaMovimiento; }
+    public String getNegativaMovimiento(){
+        return negativaMovimiento;
+    }
+
+    //Establece la direecion a la que dirige la escalera
+    //public void setDireccionEscalera(String direccion){direccionEscalera = direccion;}
+    //Devuelve la direccion a la que dirige la escalera
+    //public String getDireccionEscalera(){return  direccionEscalera;}
+    //Establece la direccion a la que dirige la puerta
+    //public void setDireccionPuerta(String direccion){direccionPuerta = direccion;}
+    //Devuelve la direccion a la que direige la puerta
+   // public String getDireccionPuerta(){return direccionPuerta;}
 
 
 

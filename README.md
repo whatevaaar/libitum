@@ -8,8 +8,6 @@ Falta:
     
   *Diseñar el login
   
-  *Diseño los niveles
-    
   *Implementar sistema de puntuación
   
   *Implementar base de datos
