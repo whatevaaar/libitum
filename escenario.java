@@ -1,3 +1,4 @@
+package libitum;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -24,7 +25,7 @@ public class escenario {
         this.descripciones.addAll(descripciones);
         nomEs += nombre;
 
-        this.objetosEscenario.addAll(objetosEscenario);
+        this.objetosEscenario=objetosEscenario;
     }
     //Establece las salidas que puede tener cierto escenario
     public void setDirecciones(boolean norte, boolean sur, boolean oeste, boolean este){

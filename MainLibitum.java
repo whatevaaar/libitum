@@ -1,3 +1,4 @@
+package libitum;
 import java.util.Scanner;
 import java.util.ArrayList;
 public class MainLibitum {

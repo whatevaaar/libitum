@@ -1,3 +1,4 @@
+package libitum;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.FileReader;
@@ -9,8 +10,7 @@ import java.util.Scanner;
 public class Accion {
     //Listas de palabras
     private final List<String> palabrasMover = Arrays.asList("ir","caminar", "derrar","correr", "avanzar", "correr");
-
-    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "subir", "bajar");
+    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar");
     private final List<String> palabrasPelear = Arrays.asList("golpear", "patear", "machetear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
@@ -57,6 +57,8 @@ public class Accion {
         else if(palabrasRecolectar.contains(verbo)){recolectar(robot.inventario, complemento, escenarioActual);}
         
         else if (palabrasEspeciales.contains(verbo)) { especiales(verbo); }
+
+        else if(palabrasInteractuar.contains(verbo)){interactuar();}
         
         else{System.out.println("No entiendo esa acción");}
 
@@ -183,13 +185,13 @@ public class Accion {
         Ubicarse();
         switch (verbo){
             case "subir": if (escenarioActual.checarExistenciaObjetosRelleno("escalera")){escenarioActual.salidaNorte = true; complemento = "norte"; mover();}
-                          else {System.out.println("No hay ninguna escalera");} break;
+            else {System.out.println("No hay ninguna escalera");} break;
             case "bajar": if (escenarioActual.checarExistenciaObjetosRelleno("escalera")){escenarioActual.salidaSur = true; complemento = "sur"; mover();}
-                          else {System.out.println("No hay ninguna escalera");} break;
+            else {System.out.println("No hay ninguna escalera");} break;
             case "abrir": if (escenarioActual.checarExistenciaObjetosRelleno("puerta")){escenarioActual.salidaEste = true; System.out.println("Puerta abierta");}
-                          else {System.out.println("No hay ninguna puerta");} break;
+            else {System.out.println("No hay ninguna puerta");} break;
             case "cerrar": if (escenarioActual.checarExistenciaObjetosRelleno("puerta")){escenarioActual.salidaEste = false; System.out.println("Puerta cerrada");}
-                           else {System.out.println("No hay ninguna puerta");} break;
+            else {System.out.println("No hay ninguna puerta");} break;
         }
     }
 
