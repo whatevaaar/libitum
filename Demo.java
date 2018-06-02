@@ -80,12 +80,14 @@ public class Demo {
         escenario2.setDescripciones(descEsc2);
         escenario2.setObjetosAgarrables(objEsc2);
 
+        escenario2.direccionPuerta = "este";
+
 
         //*******ESCENARIO 3********* "Vertedero Robots"
 
         //Objetos que no se pueden almacenar
         objInutilEsc3.add("Robots");
-
+        objInutilEsc3.add("puerta");
         descEsc3.add("Este del almacen");
         descEsc3.add("Ahí esta la puerta de entrada del almacén");
         descEsc3.add("Estás fuera del almacen, frente a ti hay un vertedero con restos de robots por todas partes.");
@@ -94,6 +96,8 @@ public class Demo {
 
         escenario3.setNegativaMovimiento("No puedes ir ahí, hay un vertedero inmenso con robots inservibles apilados, \nhasta donde alcanza la vista");
         escenario3.setDescripciones(descEsc3);
+
+        escenario3.direccionPuerta = "oeste";
 
         //******ESCENARIO 4******* "Bosque"
 

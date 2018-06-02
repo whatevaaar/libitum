@@ -10,11 +10,11 @@ import java.util.Scanner;
 public class Accion {
     //Listas de palabras
     private final List<String> palabrasMover = Arrays.asList("ir","caminar", "derrar","correr", "avanzar", "correr");
-    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar");
+    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar", "salir", "entrar");
     private final List<String> palabrasPelear = Arrays.asList("golpear", "patear", "machetear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
-    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","salir","ayuda");
+    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este");
   
     private Robot robot;
@@ -70,8 +70,6 @@ public class Accion {
             System.out.print(">: ");
             Scanner entradaEscanner = new Scanner(System.in);
             String entradaTeclado = entradaEscanner.nextLine();
-
-            entradaEscanner.close();
             instruccion = entradaTeclado;
             prepararString();
             complemento = instruccion;
@@ -108,7 +106,6 @@ public class Accion {
             case "guardar": guardar(robot); break;
             case "cargar": cargar(robot); break;
             case "ayuda": mensajeAyuda(); break;
-            case "salir": System.exit(0);
         }
     }
 
@@ -185,13 +182,13 @@ public class Accion {
         Ubicarse();
         switch (verbo){
             case "subir": if (escenarioActual.checarExistenciaObjetosRelleno("escalera")){escenarioActual.salidaNorte = true; complemento = "norte"; mover();}
-            else {System.out.println("No hay ninguna escalera");} break;
+                else {System.out.println("No hay ninguna escalera");} break;
             case "bajar": if (escenarioActual.checarExistenciaObjetosRelleno("escalera")){escenarioActual.salidaSur = true; complemento = "sur"; mover();}
-            else {System.out.println("No hay ninguna escalera");} break;
-            case "abrir": if (escenarioActual.checarExistenciaObjetosRelleno("puerta")){escenarioActual.salidaEste = true; System.out.println("Puerta abierta");}
-            else {System.out.println("No hay ninguna puerta");} break;
-            case "cerrar": if (escenarioActual.checarExistenciaObjetosRelleno("puerta")){escenarioActual.salidaEste = false; System.out.println("Puerta cerrada");}
-            else {System.out.println("No hay ninguna puerta");} break;
+                else {System.out.println("No hay ninguna escalera");} break;
+            case "abrir": escenarioActual.abrirPuerta(); break;
+            case "cerrar": escenarioActual.cerrarPuerta(); break;
+            case "salir": if (escenarioActual.salir()){this.complemento = escenarioActual.direccionPuerta; mover();} break; //En caso de devolver true, hace el movimiento simulando subir una escalera
+            case "entrar": if (escenarioActual.entrar()){this.complemento = escenarioActual.direccionPuerta; mover();} break;
         }
     }
 
