@@ -168,7 +168,6 @@ public class Accion {
             
     }
 
-
     public void observar(){
         if (complemento == null){
             Ubicarse();
