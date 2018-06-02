@@ -1,4 +1,3 @@
-package libitum;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -14,20 +13,33 @@ public class Escenario {
     boolean salidaSur;
     boolean salidaEste;
     boolean salidaOeste;
+    boolean existEnemigos;
     private String negativaMovimiento;
     String direccionPuerta;
     String tipoPuerta;
+    Enemigo enemigo;
 
 
-    public Escenario(int id, String nombre, ArrayList<String> objetosObtenibles, ArrayList<String> objetosEscenario, ArrayList<String> descripciones) { //Constructor de la clase
+    public Escenario(int id, String nombre, ArrayList<String> objetosObtenibles, 
+                    ArrayList<String> objetosEscenario, ArrayList<String> descripciones) { //Constructor de la clase
         numID = id;
         objetos.addAll(objetosObtenibles); //.addall copia todos los elementos de la lista recibida y las traspasa a la lista objetivo
         this.descripciones.addAll(descripciones);
         nomEs += nombre;
-
         this.objetosEscenario = objetosEscenario;
+        existEnemigos = false;
     }
 
+    public Escenario(int id, String nombre, ArrayList<String> objetosObtenibles, 
+    ArrayList<String> objetosEscenario, ArrayList<String> descripciones, Enemigo enemigo) { //Constructor de escenario con enemigo
+        numID = id;
+        objetos.addAll(objetosObtenibles); //.addall copia todos los elementos de la lista recibida y las traspasa a la lista objetivo
+        this.descripciones.addAll(descripciones);
+        nomEs += nombre;
+        this.objetosEscenario = objetosEscenario;
+        existEnemigos = true;
+        this.enemigo = enemigo;
+    }
     //Establece las salidas que puede tener cierto escenario
     public void setDirecciones(boolean norte, boolean sur, boolean oeste, boolean este) {
         salidaNorte = norte;
@@ -89,7 +101,13 @@ public class Escenario {
     public String getNegativaMovimiento() {
         return negativaMovimiento;
     }
+    public boolean getExistEnemigos() {
+        return existEnemigos;
+    }
 
+    public Enemigo getEnemigo() {
+        return enemigo;
+    }
     //Establece la direecion a la que dirige la escalera
     //public void setDireccionEscalera(String direccion){direccionEscalera = direccion;}
     //Devuelve la direccion a la que dirige la escalera

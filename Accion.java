@@ -15,7 +15,7 @@ public class Accion {
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
     private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda","diagnostico");
-    private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este");
+    private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este", "izquierda","derecha");
     private final List<String> palabrasPeleaDA = Arrays.asList("mano", "manos", "puños","brazos"); //Desarmado
     
 
@@ -25,7 +25,7 @@ public class Accion {
     private String verbo;
     private String complemento;
     private int posicionActual;
-    private escenario escenarioActual = null;
+    private Escenario escenarioActual = null;
 
     //Constructor que es llamado en el momento cada que el usuario ingresa un texto en la consola
     public Accion(String instruccion, Robot robot){
@@ -57,7 +57,7 @@ public class Accion {
         
         else if (palabrasPelear.contains(verbo)) { pelear(); } // " " " llama a pelear
         
-        else if(palabrasRecolectar.contains(verbo)){recolectar(robot.inventario, complemento, escenarioActual);}
+        else if(palabrasRecolectar.contains(verbo)){recolectar();}
         
         else if (palabrasEspeciales.contains(verbo)) { especiales(verbo); }
 
@@ -168,6 +168,7 @@ public class Accion {
             
     }
 
+
     public void observar(){
         if (complemento == null){
             Ubicarse();
@@ -179,11 +180,11 @@ public class Accion {
         }
     }
 
-    public void recolectar(Inventario inventario, String complemento, escenario escenarioA){ //Método para almacenar en el inventario
-    		if(escenarioA.checarExistencia(complemento))	{
-    			inventario.almacenar(complemento);
+    public void recolectar(){ //Método para almacenar en el inventario
+    		if(escenarioActual.checarExistencia(complemento))	{
+    			robot.inventario.almacenar(complemento);
     			System.out.println("recogido");
-                escenarioA.recogerObjeto(complemento);
+                escenarioActual.recogerObjeto(complemento);
             	return;
     		}
     		else  {System.out.println("No puedes recoger eso");	return;}
