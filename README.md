@@ -6,11 +6,14 @@ Falta:
 
   *GUI, en su totalidad
     
-  *Diseñar el login
+  *Acoplar el login
   
   *Implementar sistema de puntuación
   
   *Implementar base de datos
   
+  *Manejar caso muerte en pelea
+  
+  *Mejorar prints en diagnosticar
 
 Comenta tu código, por favor :)
