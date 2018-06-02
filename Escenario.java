@@ -89,6 +89,9 @@ public class Escenario {
         for (String d : descripciones) {
             temp += d + "\n";
         }
+        if(existEnemigos){
+            temp += enemigo.getDescripcion();
+        }
         return temp;
     }
 
