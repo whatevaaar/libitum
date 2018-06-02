@@ -1,4 +1,3 @@
-package libitum;
 import java.util.ArrayList;
 public class Inventario {
     public static ArrayList<String> objetos = new ArrayList<>();
@@ -12,6 +11,10 @@ public class Inventario {
         String temp = "";
         for (String o : objetos) { temp += o + "\n";}
         return temp;
+    }
+
+    public boolean existencia(String objeto) {
+        return objetos.contains(objeto);
     }
 
     public String codificar(){ //Codifica los elementos del inventario para poder ser leídos por el sistema de guardado

@@ -1,4 +1,3 @@
-package libitum;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.FileReader;
@@ -6,23 +5,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Accion {
     //Listas de palabras
     private final List<String> palabrasMover = Arrays.asList("ir","caminar", "derrar","correr", "avanzar", "correr");
     private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar", "salir", "entrar");
-    private final List<String> palabrasPelear = Arrays.asList("golpear", "patear", "machetear");
+    private final List<String> palabrasPelear = Arrays.asList("golpear", "atacar", "pelear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
-    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda");
-    private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este", "izquierda", "derecha");
+    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda","diagnostico");
+    private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este");
+    private final List<String> palabrasPeleaDA = Arrays.asList("mano", "manos", "puños","brazos"); //Desarmado
+    
+
   
     private Robot robot;
     private String instruccion;
     private String verbo;
     private String complemento;
     private int posicionActual;
-    private Escenario escenarioActual = null;
+    private escenario escenarioActual = null;
 
     //Constructor que es llamado en el momento cada que el usuario ingresa un texto en la consola
     public Accion(String instruccion, Robot robot){
@@ -93,12 +96,13 @@ public class Accion {
                 } else {
                 if (count == direcciones.size() - 1) { // En caso de no envecontrar una coincidencia en esa iteracion, verifica si son todas las palabras de direccion
                     System.out.println("No entiendo a donde quieres ir, prueba con una direccion cardinal");
-                } else { //Si aún hay palabras en la lista de direccion, itera de nuevo
+                } else { //Si aún hay palabras e        Random rand = new Random();
                     continue;
                 }
             }
         }
     }
+
 
     public void especiales(String esp){
         switch (esp){
@@ -106,9 +110,17 @@ public class Accion {
             case "guardar": guardar(robot); break;
             case "cargar": cargar(robot); break;
             case "ayuda": mensajeAyuda(); break;
+            case "diagnostico": diagnosticar(); break;
         }
     }
 
+    public void diagnosticar() {
+        if (90 < robot.getVida()){System.out.println("Estás súper duper");}
+        else if (80 < robot.getVida()){System.out.println("Estás no tan súper duper");}
+        else if (60 < robot.getVida()){System.out.println("Buscar asistencia");}
+        else if (40 < robot.getVida()){System.out.println("Buscar asistencia a la brevedad");}
+
+    }
     public void mensajeAyuda() {
         String mensaje = 
                         "¡Bienvenido a Libitum!\n"+
@@ -168,7 +180,7 @@ public class Accion {
         }
     }
 
-    public void recolectar(Inventario inventario, String complemento, Escenario escenarioA){ //Método para almacenar en el inventario
+    public void recolectar(Inventario inventario, String complemento, escenario escenarioA){ //Método para almacenar en el inventario
     		if(escenarioA.checarExistencia(complemento))	{
     			inventario.almacenar(complemento);
     			System.out.println("recogido");
@@ -191,9 +203,52 @@ public class Accion {
             case "entrar": if (escenarioActual.entrar()){this.complemento = escenarioActual.direccionPuerta; mover();} break;
         }
     }
+    public int pelearComplemento(String complementoPelea){ //Regresa el daño basado en lo que el jugador use para atacar
+        int dañoExtra;
+        if (palabrasPeleaDA.contains(complementoPelea)){ dañoExtra = 0;}
+        else if (!robot.inventario.existencia(complementoPelea))  {System.out.println("No tienes" + complementoPelea); dañoExtra = 0;}
+        else{ dañoExtra = robot.generarDañoExtra(complementoPelea); }
+        return dañoExtra;
+    }
+    public void pelear(){
+        int dañoExtra = 0;
+        if (!escenarioActual.getExistEnemigos()){   System.out.println("No hay nadie con quién pelear aquí");   return;}
 
-    public void pelear(){}
+        if (complemento == null){
+            System.out.println(">:¿Con qué?");
+            Scanner entradaEscanner = new Scanner(System.in);
+            String entradaTeclado = entradaEscanner.nextLine();
+            dañoExtra = pelearComplemento(entradaTeclado);
+        }
+        else if(complemento.contains(" ")){
+            int indexEspacio = complemento.lastIndexOf(" ");
+            pelearComplemento(complemento.substring(indexEspacio,complemento.length()-1));
+        }
+        else {  pelearComplemento(complemento);   }
 
+        Random rand = new Random();
+        Enemigo enemigo = escenarioActual.getEnemigo();
+        int vidaEnem = enemigo.getVida() - (rand.nextInt(10) + 1) - dañoExtra;
+        int vidaRobot = robot.getVida() - enemigo.atacar();
+        if (vidaEnem > 0){
+            System.out.println("Atacaste a " + enemigo.getNombre());
+            enemigo.setVida(vidaEnem);
+            System.out.println("¡"+enemigo.getNombre()+" te ha atacado!");
+            if (vidaRobot < 0){
+                morir();
+            }
+            return; 
+        }
+        System.out.println("Matataste a " + enemigo.getNombre());
+        enemigo.morir();
+        return;
+    }
+
+    public void morir() {
+        System.out.println("Haz muerto");
+        // Penalización o whatevar
+
+    }
     public void Ubicarse(){
 
         posicionActual = robot.getEscenario(); //Obtiene la posicion actual del robot
