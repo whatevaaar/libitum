@@ -15,14 +15,14 @@ public class Accion {
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
     private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda");
-    private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este");
+    private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este", "izquierda", "derecha");
   
     private Robot robot;
     private String instruccion;
     private String verbo;
     private String complemento;
     private int posicionActual;
-    private escenario escenarioActual = null;
+    private Escenario escenarioActual = null;
 
     //Constructor que es llamado en el momento cada que el usuario ingresa un texto en la consola
     public Accion(String instruccion, Robot robot){
@@ -168,7 +168,7 @@ public class Accion {
         }
     }
 
-    public void recolectar(Inventario inventario, String complemento, escenario escenarioA){ //Método para almacenar en el inventario
+    public void recolectar(Inventario inventario, String complemento, Escenario escenarioA){ //Método para almacenar en el inventario
     		if(escenarioA.checarExistencia(complemento))	{
     			inventario.almacenar(complemento);
     			System.out.println("recogido");
