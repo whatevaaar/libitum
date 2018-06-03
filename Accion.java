@@ -11,7 +11,7 @@ import java.util.Random;
 public class Accion {
     //Listas de palabras
     private final List<String> palabrasMover = Arrays.asList("ir","caminar", "derrar","correr", "avanzar", "correr");
-    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar", "salir", "entrar");
+    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar", "salir", "entrar", "mover");
     private final List<String> palabrasPelear = Arrays.asList("golpear", "atacar", "pelear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
@@ -200,10 +200,11 @@ public class Accion {
                 else {System.out.println("No hay ninguna escalera");} break;
             case "bajar": if (escenarioActual.checarExistenciaObjetosRelleno("escalera")){escenarioActual.salidaSur = true; complemento = "sur"; mover();}
                 else {System.out.println("No hay ninguna escalera");} break;
-            case "abrir": escenarioActual.abrirPuerta(); break;
+            case "abrir": escenarioActual.abrir(complemento); break;
             case "cerrar": escenarioActual.cerrarPuerta(); break;
             case "salir": if (escenarioActual.salir()){this.complemento = escenarioActual.direccionPuerta; mover();} break; //En caso de devolver true, hace el movimiento simulando subir una escalera
             case "entrar": if (escenarioActual.entrar()){this.complemento = escenarioActual.direccionPuerta; mover();} break;
+            case "mover": escenarioActual.mover(complemento);
         }
     }
     public int pelearComplemento(String complementoPelea){ //Regresa el daño basado en lo que el jugador use para atacar

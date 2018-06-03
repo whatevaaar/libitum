@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Robot {
-    private int vida=100;
+    static int vida=100;
     public static int escenario = 2;
     Inventario inventario = new Inventario();
+    static ArrayList<String> habilidades = new ArrayList<>();
+    static int puntuacion;
 
     public int getEscenario() { return escenario;} //Regresa el escenario
 

@@ -69,10 +69,12 @@ public class Demo {
         //*******ESCENARIO 2********* Parte baja bodega
         objInutilEsc2.add("escalera");
         objInutilEsc2.add("puerta");
+        objInutilEsc2.add("alfombra");
 
         descEsc2.add("Te encuentras en la planta baja de un almacén.");
         descEsc2.add("A la derecha hay una puerta abierta ");
         descEsc2.add("Hay  unas escaleras, que van a la parte alta del almacén");
+        descEsc2.add("Hay una alfombra color escarlata en el centro");
 
         escenario2.setDirecciones(false, false, false, false);
 

@@ -1,6 +1,7 @@
 package libitum;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 public class Escenario {
 
@@ -224,6 +225,34 @@ public class Escenario {
         return entrada;
     }
 
+    //Verifica que es lo que quiere abrir el ususario, ya que puede ser una puerta u objetos especiales
+    public void abrir(String comp){
+        if (comp == null){
+            System.out.println("¿Que quieres mover?");
+            System.out.print(">: ");
+            Scanner entradaEscanner = new Scanner(System.in);
+            String entradaTeclado = entradaEscanner.nextLine();
+            comp = entradaTeclado;
+        }
+        for (String tmp: this.objetosEscenario) {
+            if (comp.contains(tmp)){
+                if (tmp == "puerta"){this.abrirPuerta();}
+                else if(tmp == "compartimento"){
+                    System.out.println("Encontraste el primer fragmento de memoria");
+                    System.out.println("\nInsertas el fragmento de memoria en tu sistema y encuentras información confusa, " +
+                                    "aparentemente son archivos de produccion de androides en masa de una comporación llamada \n\"TecnoAsia\" " +
+                                    "los documentos están firmados por un tal \"ADAM WEESTWOOD\", el nombre te parece familiar, pero no logras recordar.");
+                    System.out.println("El fragmento de memoria hace que se activen algunos mecanismos de tu traje.");
+                    System.out.println("Ahora puedes escalar muros de tamaño considerable.");
+                    System.out.println("\nPuntuacion aumentada: +200");
+                    Robot.habilidades.add("salto");
+                    Robot.puntuacion +=20;}
+                else System.out.println("No puedes mover eso");
+            }else continue;
+        }
+    }
+
+
     //Verifica la existencia de una puerta, de ser así, activa la salida según la direccion donde esté colocada la puerta
     public void abrirPuerta() {
             if (this.checarExistenciaObjetosRelleno("puerta")) {
@@ -253,4 +282,19 @@ public class Escenario {
         } else {System.out.println("No hay ninguna puerta"); }
     }
 
+    //Realiza el movimiento de algun objeto del escenario
+    public void mover(String comp){
+        for (String tmp: this.objetosEscenario) {
+            if (comp.contains(tmp)){
+                if (this.numID == 2){
+                    System.out.println("Moviendo alfombra\nEncontraste un compartimento secreto, tiene un viejo candado consumido por el óxido, se ve falcil de abrir");
+                    this.objetosEscenario.add("compartimento");
+                    this.descripciones.add("Hay un compartimento secreto en el suelo al descubierto");
+                    return;
+                    //this.descripciones.add("Hay un compartimento secreto en el suelo");
+                }
+            }else continue;
+        }
+        System.out.println("No esta ese objeto");
+    }
 }
