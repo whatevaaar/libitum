@@ -1,3 +1,5 @@
+package libitum;
+
 import java.util.ArrayList;
 public class Inventario {
     public static ArrayList<String> objetos = new ArrayList<>();
@@ -13,7 +15,7 @@ public class Inventario {
         return temp;
     }
 
-    public boolean existencia(String objeto) {
+    public static boolean existencia(String objeto) {
         return objetos.contains(objeto);
     }
 

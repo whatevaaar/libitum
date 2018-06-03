@@ -1,3 +1,4 @@
+package libitum;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -14,13 +15,13 @@ public class Escenario {
     boolean salidaEste;
     boolean salidaOeste;
     boolean existEnemigos;
+    Enemigo enemigo;
     private String negativaMovimiento;
     String direccionPuerta;
     String tipoPuerta;
-    Enemigo enemigo;
+    boolean necesitaLlave;
 
-
-    public Escenario(int id, String nombre, ArrayList<String> objetosObtenibles, 
+    public Escenario(int id, String nombre, ArrayList<String> objetosObtenibles,
                     ArrayList<String> objetosEscenario, ArrayList<String> descripciones) { //Constructor de la clase
         numID = id;
         objetos.addAll(objetosObtenibles); //.addall copia todos los elementos de la lista recibida y las traspasa a la lista objetivo
@@ -30,7 +31,7 @@ public class Escenario {
         existEnemigos = false;
     }
 
-    public Escenario(int id, String nombre, ArrayList<String> objetosObtenibles, 
+    public Escenario(int id, String nombre, ArrayList<String> objetosObtenibles,
     ArrayList<String> objetosEscenario, ArrayList<String> descripciones, Enemigo enemigo) { //Constructor de escenario con enemigo
         numID = id;
         objetos.addAll(objetosObtenibles); //.addall copia todos los elementos de la lista recibida y las traspasa a la lista objetivo
@@ -56,6 +57,13 @@ public class Escenario {
         return objetosEscenario.contains(obj);
     }
 
+    public boolean getExistEnemigos() {
+        return existEnemigos;
+    }
+
+    public Enemigo getEnemigo() {
+        return enemigo;
+    }
     public boolean recogerObjeto(String obj) {
 
         //Usamos un objeto iterador de la biblioteca de Java para poder buscar y eliminar la oración que contiene la descripción
@@ -104,13 +112,7 @@ public class Escenario {
     public String getNegativaMovimiento() {
         return negativaMovimiento;
     }
-    public boolean getExistEnemigos() {
-        return existEnemigos;
-    }
 
-    public Enemigo getEnemigo() {
-        return enemigo;
-    }
     //Establece la direecion a la que dirige la escalera
     //public void setDireccionEscalera(String direccion){direccionEscalera = direccion;}
     //Devuelve la direccion a la que dirige la escalera
@@ -142,31 +144,51 @@ public class Escenario {
 
         if (noEscenario == 1) {
             switch (direccion) {
-                case "sur": noEscenario = 2; break;
+                case "sur":
+                    noEscenario = 2;
+                    break;
             }
         } else if (noEscenario == 2) {
             switch (direccion) {
-                case "este": noEscenario = 3; break;
-                case "norte": noEscenario = 1; break;
+                case "este":
+                    noEscenario = 3;
+                    break;
+                case "norte":
+                    noEscenario = 1;
+                    break;
             }
         } else if (noEscenario == 3) {
             switch (direccion) {
-                case "oeste": noEscenario = 2; break;
-                case "sur": noEscenario = 6; break;
-                case "norte": noEscenario = 4; break;
+                case "oeste":
+                    noEscenario = 2;
+                    break;
+                case "sur":
+                    noEscenario = 6;
+                    break;
+                case "norte":
+                    noEscenario = 4;
+                    break;
             }
         } else if (noEscenario == 4) {
             switch (direccion) {
-                case "sur": noEscenario = 3; break;
+                case "sur":
+                    noEscenario = 3;
+                    break;
             }
         } else if (noEscenario == 5) {
             switch (direccion) {
-                case "norte": noEscenario = 4; break;
-                case "sur": noEscenario = 6; break;
+                case "norte":
+                    noEscenario = 4;
+                    break;
+                case "sur":
+                    noEscenario = 6;
+                    break;
             }
         } else if (noEscenario == 6) {
             switch (direccion) {
-                case "norte": noEscenario = 5; break;
+                case "norte":
+                    noEscenario = 5;
+                    break;
             }
         }
         return noEscenario;
@@ -176,39 +198,47 @@ public class Escenario {
     //Devuelve true solo en caso de que ambas afirmaciones sean verdaderas
     public boolean salir() {
         boolean salida = false;
-        if (this.tipoPuerta == "salida"){
-            if (direccionPuerta != null) {
-                if (verificarMovimiento(direccionPuerta)) {
-                    salida = true;
-                } else {System.out.println("La puerta está cerrada");}
-            } else {System.out.println("No estás en ningún sitio de donde se deba salir");}
-        }else{System.out.println("No estás en ningún sitio de donde se deba salir");}
+        if (direccionPuerta != null) {
+            if (verificarMovimiento(direccionPuerta)) {
+                salida = true;
+            } else {
+                System.out.println("La puerta está cerrada");
+            }
+        } else {
+            System.out.println("No estás en ningún sitio de donde se deba salir");
+        }
         return salida;
     }
 
     public boolean entrar(){
         boolean entrada = false;
-        if (this.tipoPuerta == "entrada"){
-            if (direccionPuerta != null) {
-                if (verificarMovimiento(direccionPuerta)) {
-                    entrada = true;
-                } else {System.out.println("La puerta está cerrada");}
-            } else {System.out.println("No puedes ir pór ahí");}
-        }else{System.out.println("No hay nignún lugar en donde puedas entrar");}
+        if (direccionPuerta != null) {
+            if (verificarMovimiento(direccionPuerta)) {
+                entrada = true;
+            } else {
+                System.out.println("La puerta está cerrada");
+            }
+        } else {
+            System.out.println("No puedes entrar ahí");
+        }
         return entrada;
     }
 
     //Verifica la existencia de una puerta, de ser así, activa la salida según la direccion donde esté colocada la puerta
     public void abrirPuerta() {
-        if (this.checarExistenciaObjetosRelleno("puerta")) {
-            switch (direccionPuerta) {
-                case "norte": salidaNorte = true; break;
-                case "sur": salidaSur = true; break;
-                case "este": salidaEste = true; break;
-                case "oeste": salidaOeste = true; break;
-            }
-            System.out.println("Puerta abierta");
-        } else {System.out.println("No hay ninguna puerta"); }
+            if (this.checarExistenciaObjetosRelleno("puerta")) {
+                if (this.necesitaLlave){  //Si la puerta necesita una llave para poder abrirse, revisa si lleva la llave, de ser así la abre, caso contrario indica que la necesita
+                    if (Inventario.existencia("tarjeta")){
+                        System.out.println("Usando tarjeta\nPuerta abierta");
+                    }else{System.out.println("No puedes abrir esta puerta, necesitas la tarjeta de acceso"); return;}
+            }else {System.out.println("Puerta abierta");}
+        }else {System.out.println("No hay ninguna puerta"); return;}
+        switch (direccionPuerta) {
+            case "norte": salidaNorte = true; break;
+            case "sur": salidaSur = true; break;
+            case "este": salidaEste = true; break;
+            case "oeste": salidaOeste = true; break;
+        }
     }
 
     public void cerrarPuerta(){

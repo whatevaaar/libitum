@@ -1,4 +1,5 @@
-    import java.util.ArrayList;
+package libitum;
+import java.util.ArrayList;
 
 public class Demo {
     //ESCENARIO 1
@@ -83,7 +84,7 @@ public class Demo {
         escenario2.direccionPuerta = "este";
         escenario2.tipoPuerta = "salida";
 
-
+        escenario2.necesitaLlave = true;
         //*******ESCENARIO 3********* "Vertedero Robots"
 
         //Objetos que no se pueden almacenar

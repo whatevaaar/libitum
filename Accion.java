@@ -1,3 +1,4 @@
+package libitum;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.FileReader;
@@ -17,9 +18,7 @@ public class Accion {
     private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda","diagnostico");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este", "izquierda","derecha");
     private final List<String> palabrasPeleaDA = Arrays.asList("mano", "manos", "puños","brazos"); //Desarmado
-    
 
-  
     private Robot robot;
     private String instruccion;
     private String verbo;
@@ -88,11 +87,15 @@ public class Accion {
                     GenerarEscenario();
                     System.out.println(escenarioActual.getDescripcion());
                     return;
-                }else{
-                    System.out.println(escenarioActual.getNegativaMovimiento()); return;
+                }else{  //Si intenta moverse en una direccion no válida y en esa direccion hay una puerta indica que esta está cerrada
+                    if (escenarioActual.checarExistenciaObjetosRelleno("puerta")){
+                        String direccion = direcciones.get(count);
+                        if (direccion == "izquierda"){ direccion = "oeste";} else if (direccion == "derecha"){direccion = "este";} //Convierte la direccion IZQUIERDA o DERECHA en una direccion cardinal
+                        if (escenarioActual.direccionPuerta == direccion){
+                            System.out.println("Puerta cerrada"); break;
+                        }else {System.out.println(escenarioActual.getNegativaMovimiento()); break;}
+                    }else {System.out.println(escenarioActual.getNegativaMovimiento()); break;}
                 }
-
-
                 } else {
                 if (count == direcciones.size() - 1) { // En caso de no envecontrar una coincidencia en esa iteracion, verifica si son todas las palabras de direccion
                     System.out.println("No entiendo a donde quieres ir, prueba con una direccion cardinal");
