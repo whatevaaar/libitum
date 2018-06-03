@@ -1,5 +1,3 @@
-package libitum;
-
 import java.util.ArrayList;
 public class Inventario {
     public static ArrayList<String> objetos = new ArrayList<>();
@@ -15,9 +13,7 @@ public class Inventario {
         return temp;
     }
 
-    public static boolean existencia(String objeto) {
-        return objetos.contains(objeto);
-    }
+    public static boolean existencia(String objeto) {   return objetos.contains(objeto);    }
 
     public String codificar(){ //Codifica los elementos del inventario para poder ser leídos por el sistema de guardado
         String temp = "";
@@ -32,7 +28,7 @@ public class Inventario {
         }   return null;
     }
     
-    public void decodificar(String codigo) {
+    public void decodificar(String codigo) {//Función que usa la guiaDecodificar para agregar objs al inventario
         for (char c : codigo.toCharArray()) {
             objetos.add(guiaDecodificar(c));
         }
@@ -43,5 +39,7 @@ public class Inventario {
             case 'd': return "documento";
         }   return null;
     }
+
+    public ArrayList<String> getInventario() {  return objetos; }
 
 }
