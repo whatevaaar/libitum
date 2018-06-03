@@ -1,4 +1,3 @@
-package libitum;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -9,13 +8,16 @@ public class Escenario {
     public int numID; //id del escenario
     public String nomEs = "";//Nombre del escenario
     ArrayList<String> objetos = new ArrayList<String>(); //Lista que incluye los posibles objetos agarrables
+    ArrayList<String> objetosExtra = new ArrayList<String>(); //Lista que incluye los posibles objetos extra agarrables
     ArrayList<String> objetosEscenario = new ArrayList<String>(); //Lista de objetos que no se pueden recoger
     ArrayList<String> descripciones = new ArrayList<String>();
+    ArrayList<String> descObjExtra = new ArrayList<String>(); //Lista que incluye las descripciones de objeto soltados en el escenario
     boolean salidaNorte;
     boolean salidaSur;
     boolean salidaEste;
     boolean salidaOeste;
     boolean existEnemigos;
+    boolean boolObjetosExtra; 
     Enemigo enemigo;
     private String negativaMovimiento;
     String direccionPuerta;
@@ -30,6 +32,7 @@ public class Escenario {
         nomEs += nombre;
         this.objetosEscenario = objetosEscenario;
         existEnemigos = false;
+        boolObjetosExtra = false;
     }
 
     public Escenario(int id, String nombre, ArrayList<String> objetosObtenibles,
@@ -41,6 +44,7 @@ public class Escenario {
         this.objetosEscenario = objetosEscenario;
         existEnemigos = true;
         this.enemigo = enemigo;
+        boolObjetosExtra = false;
     }
     //Establece las salidas que puede tener cierto escenario
     public void setDirecciones(boolean norte, boolean sur, boolean oeste, boolean este) {
@@ -51,9 +55,12 @@ public class Escenario {
     }
 
     public boolean checarExistencia(String obj) { //Regresa valor booleano referente a la existencia de un objeto en el escenario visible
-        return objetos.contains(obj) ? true : false;
+        return objetos.contains(obj);
     }
-
+    
+    public boolean checarExistenciaObjExtra(String obj) { //Regresa valor booleano referente a la existencia de un objeto en el escenario visible
+        return objetosExtra.contains(obj);
+    }
     public boolean checarExistenciaObjetosRelleno(String obj) {
         return objetosEscenario.contains(obj);
     }
@@ -66,17 +73,29 @@ public class Escenario {
         return enemigo;
     }
     public boolean recogerObjeto(String obj) {
-
         //Usamos un objeto iterador de la biblioteca de Java para poder buscar y eliminar la oración que contiene la descripción
         //que menciona al objeto seguramente (sin causar errores de memoria)
         Iterator<String> itr = this.descripciones.iterator();
-
-
         while (itr.hasNext()) {
             String temp = itr.next(); //Almacenamos en una variable temporal la String a analizar
             if (temp.contains(obj)) {
                 itr.remove();//Se elimina la descripción que involucra al objeto
                 this.objetos.remove(obj); //Se elimina el objeto de la lista de objetos agarrables
+                return true;
+            }
+        }
+        return false; //El valor de regreso sólo es para confirmar el uso de la función, no se utiliza en el código.
+    }
+
+    public boolean recogerObjetoExtra(String obj) {
+        //Usamos un objeto iterador de la biblioteca de Java para poder buscar y eliminar la oración que contiene la descripción
+        //que menciona al objeto seguramente (sin causar errores de memoria)
+        Iterator<String> itr = this.descObjExtra.iterator();
+        while (itr.hasNext()) {
+            String temp = itr.next(); //Almacenamos en una variable temporal la String a analizar
+            if (temp.contains(obj)) {
+                itr.remove();//Se elimina la descripción que involucra al objeto
+                this.objetosExtra.remove(obj); //Se elimina el objeto de la lista de objetos agarrables
                 return true;
             }
         }
@@ -101,9 +120,26 @@ public class Escenario {
         if(existEnemigos){
             temp += enemigo.getDescripcion();
         }
+
+        if(boolObjetosExtra){ //Si hay objetos extra ...
+            for (String dO : descObjExtra) {    temp += dO + "\n";  }
+        }
         return temp;
     }
 
+    public void objetoSoltado(String objeto) { //Función que agrega obj soltados a la lista y su desc.
+        objetosExtra.add(objeto);
+        boolObjetosExtra = true;
+        String desc = generarDesc(objeto);
+        descObjExtra.add(desc);
+    }
+
+    public boolean objetosExtraVacio() {    return objetosExtra.isEmpty();  }
+
+    public String generarDesc(String objeto) { //Función que genera una descripción sensible al genero de los objetos soltados
+        int len = objeto.length();
+        return "Hay un"+(objeto.substring(len-1).equals("a")? "a":"")+" "+objeto;
+    }
     //Establece la oración respuesta en caso de que no se pueda mover en cierta direccion en un escenario
     public void setNegativaMovimiento(String negativa) {
         negativaMovimiento = negativa;
@@ -232,6 +268,7 @@ public class Escenario {
             System.out.print(">: ");
             Scanner entradaEscanner = new Scanner(System.in);
             String entradaTeclado = entradaEscanner.nextLine();
+            entradaEscanner.close();
             comp = entradaTeclado;
         }
         for (String tmp: this.objetosEscenario) {
@@ -297,4 +334,5 @@ public class Escenario {
         }
         System.out.println("No esta ese objeto");
     }
+
 }

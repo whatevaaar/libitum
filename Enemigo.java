@@ -1,5 +1,3 @@
-package libitum;
-
 import java.util.Random;
 
 public class Enemigo {

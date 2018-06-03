@@ -1,45 +1,45 @@
-package libitum;
-import java.util.ArrayList;
+    import java.util.ArrayList;
 
 public class Demo {
     //ESCENARIO 1
     public static ArrayList<String> objEsc1 = new ArrayList<String>();
     public static ArrayList<String> objInutilEsc1 = new ArrayList<String>();
     public static  ArrayList<String> descEsc1 = new ArrayList<String>();
-    public static Escenario escenario1= new Escenario(1, "AlmacenPlantaAlta", objEsc1, objInutilEsc1 ,descEsc1);
+    public static Escenario escenario1= new Escenario(1, "AlmacenPlantaAlta", objEsc1, objInutilEsc1,descEsc1);
 
     //ESCENARIO 2
     public static ArrayList<String> objEsc2 = new ArrayList<String>();
     public static ArrayList<String> objInutilEsc2 = new ArrayList<String>();
     public static  ArrayList<String> descEsc2 = new ArrayList<String>();
-    public static Escenario escenario2= new Escenario(2, "AlmacenPlantaBaja", objEsc2,objInutilEsc2 ,descEsc2);
+    public static Escenario escenario2= new Escenario(2, "AlmacenPlantaBaja", objEsc2, objInutilEsc2, descEsc2);
 
     //ESCENARIO 3
     public static ArrayList<String> objEsc3 = new ArrayList<String>();
     public static ArrayList<String> objInutilEsc3 = new ArrayList<String>();
     public static ArrayList<String> descEsc3 = new ArrayList<String>();
-    public static Escenario escenario3= new Escenario(3, "VertederoRobots", objEsc3, objInutilEsc3 ,descEsc3);
+    public static Escenario escenario3= new Escenario(3, "VertederoRobots", objEsc3, objInutilEsc3, descEsc3);
 
     //ESCENARIO 4
     public static ArrayList<String> objEsc4 = new ArrayList<String>();
     public static ArrayList<String> objInutilEsc4 = new ArrayList<String>();
     public static ArrayList<String> descEsc4 = new ArrayList<String>();
-    public static Escenario escenario4= new Escenario(4, "Bosque", objEsc4, objInutilEsc4 ,descEsc4);
+    public static Escenario escenario4= new Escenario(4, "Bosque", objEsc4, objInutilEsc4, descEsc4);
 
     //ESCENARIO 5
     public static ArrayList<String> objEsc5 = new ArrayList<String>();
     public static ArrayList<String> objInutilEsc5 = new ArrayList<String>();
     public static ArrayList<String> descEsc5 = new ArrayList<String>();
-    public static Escenario escenario5= new Escenario(5, "Carretera", objEsc5, objInutilEsc5 ,descEsc5);
+    public static Escenario escenario5= new Escenario(5, "Carretera", objEsc5, objInutilEsc5, descEsc5);
 
     //ESCENARIO 6 PRUEBA PELEA
     public static ArrayList<String> objEsc6 = new ArrayList<String>();
     public static ArrayList<String> objInutilEsc6 = new ArrayList<String>();
     public static ArrayList<String> descEsc6 = new ArrayList<String>();
     public static Enemigo enemigo = new Enemigo("La mafia del poder",20,"Mira nada más\nun loco");
-    public static Escenario escenario6 = new Escenario(6, "Cerca", objEsc6, objInutilEsc6 ,descEsc6, enemigo);
+    public static Escenario escenario6= new Escenario(6, "Cerca", objEsc6, objInutilEsc6 ,descEsc6, enemigo);
 
-
+    public static ArrayList<Escenario> listaNiveles = new ArrayList<Escenario>();
+    
     public Demo(){
         Bienvenida();
         inicializarObjetos();
@@ -69,12 +69,10 @@ public class Demo {
         //*******ESCENARIO 2********* Parte baja bodega
         objInutilEsc2.add("escalera");
         objInutilEsc2.add("puerta");
-        objInutilEsc2.add("alfombra");
 
         descEsc2.add("Te encuentras en la planta baja de un almacén.");
         descEsc2.add("A la derecha hay una puerta abierta ");
         descEsc2.add("Hay  unas escaleras, que van a la parte alta del almacén");
-        descEsc2.add("Hay una alfombra color escarlata en el centro");
 
         escenario2.setDirecciones(false, false, false, false);
 
@@ -84,9 +82,8 @@ public class Demo {
         escenario2.setObjetosAgarrables(objEsc2);
 
         escenario2.direccionPuerta = "este";
-        escenario2.tipoPuerta = "salida";
 
-        escenario2.necesitaLlave = true;
+
         //*******ESCENARIO 3********* "Vertedero Robots"
 
         //Objetos que no se pueden almacenar
@@ -102,7 +99,6 @@ public class Demo {
         escenario3.setDescripciones(descEsc3);
 
         escenario3.direccionPuerta = "oeste";
-        escenario3.tipoPuerta = "entrada";
 
         //******ESCENARIO 4******* "Bosque"
 
@@ -147,6 +143,14 @@ public class Demo {
         escenario6.setDirecciones(true, false,false,false);
         escenario6.setNegativaMovimiento("No puedes escalar la cerca, por ahora");
         escenario6.setDescripciones(descEsc6);
+
+        //Inicialización de lista de niveles
+        listaNiveles.add(escenario1);
+        listaNiveles.add(escenario2);
+        listaNiveles.add(escenario3);
+        listaNiveles.add(escenario4);
+        listaNiveles.add(escenario5);
+        listaNiveles.add(escenario6);
     }
 
     public static void Bienvenida(){

@@ -1,4 +1,3 @@
-package libitum;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.FileReader;
@@ -15,9 +14,11 @@ public class Accion {
     private final List<String> palabrasPelear = Arrays.asList("golpear", "atacar", "pelear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
-    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda","diagnostico");
+    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda","diagnostico","soltar");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este", "izquierda","derecha");
     private final List<String> palabrasPeleaDA = Arrays.asList("mano", "manos", "puños","brazos"); //Desarmado
+
+    private static Scanner entradaEscanner = new Scanner(System.in);
 
     private Robot robot;
     private String instruccion;
@@ -70,7 +71,6 @@ public class Accion {
         if(complemento == null){ //Verifica si existe un complemento despues del verbo de movimiento, de no ser así pregunta a donde se quiere mover
             System.out.println("¿A dónde quieres ir?");
             System.out.print(">: ");
-            Scanner entradaEscanner = new Scanner(System.in);
             String entradaTeclado = entradaEscanner.nextLine();
             instruccion = entradaTeclado;
             prepararString();
@@ -111,14 +111,39 @@ public class Accion {
         switch (esp){
             case "inventario": System.out.println(robot.inventario.mostrar()); break;
             case "guardar": guardar(robot); break;
-            case "cargar": cargar(robot); break;
+            case "cargar": cargar(); break;
             case "ayuda": mensajeAyuda(); break;
             case "diagnostico": diagnosticar(); break;
+            case "soltar": soltar(); break;
         }
     }
 
+
+
+    private void soltar() {
+        if (complemento == null){
+            System.out.println(">:¿Qué quieres soltar?");
+            String entradaTeclado = entradaEscanner.nextLine();
+            if(robot.inventario.existencia(entradaTeclado)){
+                int len = entradaTeclado.length();
+                robot.soltarObj(entradaTeclado);
+                escenarioActual.objetoSoltado(entradaTeclado);
+                System.out.println(entradaTeclado+" soltad"+(entradaTeclado.substring(len-1).equals("a")? "a":"o"));
+                return;
+            }
+            else{
+                System.out.println("No tienes "+entradaTeclado);           
+                return;}
+        }
+        if(robot.inventario.existencia(complemento)){
+        escenarioActual.objetoSoltado(complemento);
+        robot.soltarObj(complemento);
+        }
+        else{System.out.println("No tienes "+complemento);}
+}     
+
     public void diagnosticar() {
-        if (90 < robot.getVida()){System.out.println("Estás súper duper");}
+        if (90 < robot.getVida()){System.out.println("Estado de salud óptimo");}
         else if (80 < robot.getVida()){System.out.println("Estás no tan súper duper");}
         else if (60 < robot.getVida()){System.out.println("Buscar asistencia");}
         else if (40 < robot.getVida()){System.out.println("Buscar asistencia a la brevedad");}
@@ -155,7 +180,7 @@ public class Accion {
         
     }
 
-    public void cargar(Robot robot) {
+    public void cargar() {
         try{
 
             BufferedReader lector = new BufferedReader(new FileReader("save.txt"));
@@ -164,13 +189,19 @@ public class Accion {
             robot.inventario.decodificar(lector.readLine());
             robot.setEscenario(nuevoEscenario);
             robot.setVida(nuevaVida);
+            cargarEscenarios();
+            lector.close();
             }catch (Exception e){//Manejo de excepción
               System.err.println("Archivo de guardado no encontrado");
             }
             System.out.println("¡Partida cargada exitosamente!");
-            
     }
 
+    public void cargarEscenarios() {
+        for (Escenario e : Demo.listaNiveles) {
+            for (String string : robot.inventario.getInventario()) {    e.recogerObjeto(string);    }
+        }
+    }
 
     public void observar(){
         if (complemento == null){
@@ -189,7 +220,13 @@ public class Accion {
     			System.out.println("recogido");
                 escenarioActual.recogerObjeto(complemento);
             	return;
-    		}
+            }
+            
+            else if(escenarioActual.checarExistenciaObjExtra(complemento)){
+                robot.inventario.almacenar(complemento);
+                System.out.println("recogido");
+                escenarioActual.recogerObjetoExtra(complemento);
+            }
     		else  {System.out.println("No puedes recoger eso");	return;}
     }
 
@@ -220,7 +257,6 @@ public class Accion {
 
         if (complemento == null){
             System.out.println(">:¿Con qué?");
-            Scanner entradaEscanner = new Scanner(System.in);
             String entradaTeclado = entradaEscanner.nextLine();
             dañoExtra = pelearComplemento(entradaTeclado);
         }
