@@ -1,3 +1,4 @@
+import java.io.CharConversionException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -17,9 +18,10 @@ public class Escenario {
     boolean salidaEste;
     boolean salidaOeste;
     boolean existEnemigos;
-    boolean boolObjetosExtra; 
+    boolean boolObjetosExtra;  
+    boolean puertaAbierta; //Bool para comprobar si la puerta ya se abrió 
     Enemigo enemigo;
-    private String negativaMovimiento;
+    String negativaMovimiento;
     String direccionPuerta;
     String tipoPuerta;
     boolean necesitaLlave;
@@ -33,7 +35,9 @@ public class Escenario {
         this.objetosEscenario = objetosEscenario;
         existEnemigos = false;
         boolObjetosExtra = false;
+        puertaAbierta = false;
     }
+
 
     public Escenario(int id, String nombre, ArrayList<String> objetosObtenibles,
     ArrayList<String> objetosEscenario, ArrayList<String> descripciones, Enemigo enemigo) { //Constructor de escenario con enemigo
@@ -45,6 +49,7 @@ public class Escenario {
         existEnemigos = true;
         this.enemigo = enemigo;
         boolObjetosExtra = false;
+        puertaAbierta = false;
     }
     //Establece las salidas que puede tener cierto escenario
     public void setDirecciones(boolean norte, boolean sur, boolean oeste, boolean este) {
@@ -52,6 +57,36 @@ public class Escenario {
         salidaSur = sur;
         salidaOeste = oeste;
         salidaEste = este;
+    }
+
+    public String generarMetaDatos() {
+        String temp = "e" + String.valueOf(numID);
+        temp += puertaAbierta ? "a" : "c"; //'a'puerta abierta, 'c' puerta cerrada
+        temp += existEnemigos ? "e" : "n"; //'e' existen enemigos, 'n' no existen enemigos en escenario
+        temp += boolObjetosExtra ? "o" : "q"; //'o' existen objetos extras, 'q' no existen objetos extras.
+        return temp;
+    }
+
+    public void cargarMetadata(String metadatos) {
+        //md[0] = 'e'; md[1] = numID; md[2] = 'a'/'c' (puerta abuerta/cerrada); 
+        //md[3] = 'e'/'n' (exist enemigos); md[4] = o/n (objExt)
+        char[] arregloMet = metadatos.toCharArray();
+        if (arregloMet[2] == 'a') {   puertaAbierta = true; abrirDirecPuerta();} 
+        existEnemigos = (arregloMet[3] == 'e') ? true: false;
+        if (arregloMet[4] == 'e') 
+            for(int i = 5; i < arregloMet.length-5;i++){
+                String temp = generarDesc(guiaDecodificarEsc(arregloMet[i]));
+                descObjExtra.add(temp);
+                objetosExtra.add(temp);
+                boolObjetosExtra = true;
+            }
+        }
+
+    public String guiaDecodificarEsc (char caracter) { //Guía para decodifcar, actualizar cuando se agreguen objetos agarrables.
+        switch(caracter){
+            case '1': return "tarjeta";
+            case 'd': return "documento";
+        }   return null;
     }
 
     public boolean checarExistencia(String obj) { //Regresa valor booleano referente a la existencia de un objeto en el escenario visible
@@ -98,7 +133,7 @@ public class Escenario {
                 this.objetosExtra.remove(obj); //Se elimina el objeto de la lista de objetos agarrables
                 return true;
             }
-        }
+        }   
         return false; //El valor de regreso sólo es para confirmar el uso de la función, no se utiliza en el código.
     }
 
@@ -295,10 +330,15 @@ public class Escenario {
             if (this.checarExistenciaObjetosRelleno("puerta")) {
                 if (this.necesitaLlave){  //Si la puerta necesita una llave para poder abrirse, revisa si lleva la llave, de ser así la abre, caso contrario indica que la necesita
                     if (Inventario.existencia("tarjeta")){
+                        
                         System.out.println("Usando tarjeta\nPuerta abierta");
                     }else{System.out.println("No puedes abrir esta puerta, necesitas la tarjeta de acceso"); return;}
             }else {System.out.println("Puerta abierta");}
         }else {System.out.println("No hay ninguna puerta"); return;}
+        abrirDirecPuerta();
+    }
+
+    public void abrirDirecPuerta() {
         switch (direccionPuerta) {
             case "norte": salidaNorte = true; break;
             case "sur": salidaSur = true; break;

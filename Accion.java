@@ -160,24 +160,21 @@ public class Accion {
                             "";
         System.out.println(mensaje);
     }
+    
     public void guardar(Robot robot){
-        
         String escenarioRobot = String.valueOf(robot.getEscenario());
         String vidaRobot = String.valueOf(robot.getVida());
-
         try {
         PrintWriter escritor = new PrintWriter("save.txt");
         escritor.println(escenarioRobot);
         escritor.println(vidaRobot);
         escritor.println(robot.inventario.codificar());
+        for (Escenario e : Demo.listaNiveles) { escritor.println(e.generarMetaDatos()); }
         escritor.close();  
         }
-    
-    catch (java.io.FileNotFoundException ex)  {
-        System.out.println("Woops algo salió mal omg ");
-        }
-    System.out.println("¡Partida guardada!");
         
+        catch (java.io.FileNotFoundException ex){   System.out.println("Woops algo salió mal omg ");  }
+        System.out.println("¡Partida guardada!");
     }
 
     public void cargar() {
@@ -189,7 +186,7 @@ public class Accion {
             robot.inventario.decodificar(lector.readLine());
             robot.setEscenario(nuevoEscenario);
             robot.setVida(nuevaVida);
-            cargarEscenarios();
+            cargarEscenarios(lector);
             lector.close();
             }catch (Exception e){//Manejo de excepción
               System.err.println("Archivo de guardado no encontrado");
@@ -197,9 +194,11 @@ public class Accion {
             System.out.println("¡Partida cargada exitosamente!");
     }
 
-    public void cargarEscenarios() {
+    public void cargarEscenarios(BufferedReader lector) {
         for (Escenario e : Demo.listaNiveles) {
             for (String string : robot.inventario.getInventario()) {    e.recogerObjeto(string);    }
+            try{    e.cargarMetadata(lector.readLine());    }
+            catch (Exception ex){   System.err.println("Archivo de guardado no encontrado");    }
         }
     }
 
