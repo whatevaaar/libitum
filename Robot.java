@@ -1,5 +1,3 @@
-package libitum;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -18,6 +16,8 @@ public class Robot {
     public void setEscenario(int numEsc) {escenario=numEsc;}
 
     public void setVida(int numVida) {vida=numVida;}
+
+    public void soltarObj(String obj) { inventario.quitar(obj); }
     
     public int generarDañoExtra(String arma) {
         switch(arma){
