@@ -322,6 +322,12 @@ public class Accion {
             case 6: escenarioActual = Demo.escenario6;
                     posicionActual = 6;
                     break;
+            case 7: escenarioActual = Demo.escenario6;
+                    posicionActual = 7;
+                    break;
+            case 8: escenarioActual = Demo.escenario6;
+                    posicionActual = 8;
+                    break;
         }
     }
 }
