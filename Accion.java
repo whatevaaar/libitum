@@ -34,6 +34,12 @@ public class Accion {
         this.prepararString();
         this.analizarEntrada();
     }
+    
+    public Accion(String instruccion){
+         this.instruccion = instruccion;
+         this.prepararString();
+         this.analizarEntrada();
+     }
 
     public void prepararString(){
         instruccion = instruccion.trim(); //Elimina los espacios de inicio y final en caso de existir
