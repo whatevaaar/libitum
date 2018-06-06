@@ -82,10 +82,12 @@ public class Demo {
         //*******ESCENARIO 2********* Parte baja bodega
         objInutilEsc2.add("escalera");
         objInutilEsc2.add("puerta");
+        objInutilEsc2.add("alfombra");
 
         descEsc2.add("Te encuentras en la planta baja de un almacén.");
         descEsc2.add("A la derecha hay una puerta abierta ");
         descEsc2.add("Hay  unas escaleras, que van a la parte alta del almacén");
+        descEsc2.add("Hay una alfombra color escarlata en el centro");
 
         escenario2.setDirecciones(false, false, false, false);
 
@@ -95,6 +97,8 @@ public class Demo {
         escenario2.setObjetosAgarrables(objEsc2);
 
         escenario2.direccionPuerta = "este";
+        escenario2.tipoPuerta = "salida"; 
+        escenario2.necesitaLlave = true;
 
 
         //*******ESCENARIO 3********* "Vertedero Robots"
@@ -110,7 +114,7 @@ public class Demo {
 
         escenario3.setNegativaMovimiento("No puedes ir ahí, hay un vertedero inmenso con robots inservibles apilados, \nhasta donde alcanza la vista");
         escenario3.setDescripciones(descEsc3);
-
+        escenario3.tipoPuerta = "entrada";
         escenario3.direccionPuerta = "oeste";
 
         //******ESCENARIO 4******* "Bosque"
@@ -148,13 +152,14 @@ public class Demo {
 
         //Objetos que no se pueden almacenar
 
-        objInutilEsc6.add("Cerca");
+        objInutilEsc6.add("Muro");
 
         descEsc6.add("Sur del almacen");
-        descEsc6.add("Al sur te encuentras ante una enorme cerca");
-        descEsc6.add("Es color blanco y parece que podrías escalarla con el equipo adecuado.");
+        descEsc6.add("Te encuentras ante un enorme muro de concreto");
+        descEsc6.add("Hay una grieta por donde podrías pasar, pero está muy alto");
+  
         escenario6.setDirecciones(true, false,false,false);
-        escenario6.setNegativaMovimiento("No puedes escalar la cerca, por ahora");
+        escenario6.setNegativaMovimiento("No puedes saltar hasta la grieta, por ahora");
         escenario6.setDescripciones(descEsc6);
         public static Escenario escenario6 = new Escenario(6, "Muro", objEsc6, objInutilEsc6 ,descEsc6, enemigo);
 -
@@ -182,6 +187,7 @@ public class Demo {
 
     public static void Bienvenida(){
         System.out.println("LIBITUM un juego que probará tu paciencia, imaginación y habilidades. \nMuchos han iniciado esta aventura y han fallado. Suerte.");
+        System.out.println(escenario2.getDescripcion());
         System.out.println("Escribe \"Ayuda\" en cualquier momento para recibir informacion");
     }
 }
