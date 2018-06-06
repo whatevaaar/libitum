@@ -1,3 +1,4 @@
+package libitum;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.FileReader;
@@ -10,17 +11,16 @@ import java.util.Random;
 public class Accion {
     //Listas de palabras
     private final List<String> palabrasMover = Arrays.asList("ir","caminar", "derrar","correr", "avanzar", "correr");
-    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar", "salir", "entrar", "mover");
+    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar", "salir", "entrar", "mover", "saltar");
     private final List<String> palabrasPelear = Arrays.asList("golpear", "atacar", "pelear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
     private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda","diagnostico","soltar");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este", "izquierda","derecha");
     private final List<String> palabrasPeleaDA = Arrays.asList("mano", "manos", "puños","brazos"); //Desarmado
-
+    
     private static Scanner entradaEscanner = new Scanner(System.in);
-
-    private Robot robot;
+    public static Robot robot;
     private String instruccion;
     private String verbo;
     private String complemento;
@@ -31,6 +31,12 @@ public class Accion {
     public Accion(String instruccion, Robot robot){
         this.instruccion = instruccion;
         this.robot = robot;
+        this.prepararString();
+        this.analizarEntrada();
+    }
+
+    public Accion(String instruccion){
+        this.instruccion = instruccion;
         this.prepararString();
         this.analizarEntrada();
     }
@@ -110,16 +116,14 @@ public class Accion {
     public void especiales(String esp){
         switch (esp){
             case "inventario": System.out.println(robot.inventario.mostrar()); break;
-            case "guardar": guardar(robot); break;
+            case "guardar": guardar(); break;
             case "cargar": cargar(); break;
             case "ayuda": mensajeAyuda(); break;
             case "diagnostico": diagnosticar(); break;
             case "soltar": soltar(); break;
         }
     }
-
-
-
+    
     private void soltar() {
         if (complemento == null){
             System.out.println(">:¿Qué quieres soltar?");
@@ -140,8 +144,7 @@ public class Accion {
         robot.soltarObj(complemento);
         }
         else{System.out.println("No tienes "+complemento);}
-}     
-
+} 
     public void diagnosticar() {
         if (90 < robot.getVida()){System.out.println("Estado de salud óptimo");}
         else if (80 < robot.getVida()){System.out.println("Estás no tan súper duper");}
@@ -160,10 +163,11 @@ public class Accion {
                             "";
         System.out.println(mensaje);
     }
-    
-    public void guardar(Robot robot){
+    public void guardar(){
+        
         String escenarioRobot = String.valueOf(robot.getEscenario());
         String vidaRobot = String.valueOf(robot.getVida());
+
         try {
         PrintWriter escritor = new PrintWriter("save.txt");
         escritor.println(escenarioRobot);
@@ -172,9 +176,10 @@ public class Accion {
         for (Escenario e : Demo.listaNiveles) { escritor.println(e.generarMetaDatos()); }
         escritor.close();  
         }
+    
+    catch (java.io.FileNotFoundException ex){   System.out.println("Woops algo salió mal omg ");  }
+    System.out.println("¡Partida guardada!");
         
-        catch (java.io.FileNotFoundException ex){   System.out.println("Woops algo salió mal omg ");  }
-        System.out.println("¡Partida guardada!");
     }
 
     public void cargar() {
@@ -186,21 +191,13 @@ public class Accion {
             robot.inventario.decodificar(lector.readLine());
             robot.setEscenario(nuevoEscenario);
             robot.setVida(nuevaVida);
-            cargarEscenarios(lector);
-            lector.close();
             }catch (Exception e){//Manejo de excepción
               System.err.println("Archivo de guardado no encontrado");
             }
             System.out.println("¡Partida cargada exitosamente!");
+            
     }
 
-    public void cargarEscenarios(BufferedReader lector) {
-        for (Escenario e : Demo.listaNiveles) {
-            for (String string : robot.inventario.getInventario()) {    e.recogerObjeto(string);    }
-            try{    e.cargarMetadata(lector.readLine());    }
-            catch (Exception ex){   System.err.println("Archivo de guardado no encontrado");    }
-        }
-    }
 
     public void observar(){
         if (complemento == null){
@@ -214,19 +211,14 @@ public class Accion {
     }
 
     public void recolectar(){ //Método para almacenar en el inventario
-    		if(escenarioActual.checarExistencia(complemento))	{
-    			robot.inventario.almacenar(complemento);
+        String objeto = escenarioActual.checarExistencia(complemento);
+    		if( objeto != null)	{
+    			robot.inventario.almacenar(objeto);
     			System.out.println("recogido");
-                escenarioActual.recogerObjeto(complemento);
+                escenarioActual.recogerObjeto(objeto);
             	return;
-            }
-            
-            else if(escenarioActual.checarExistenciaObjExtra(complemento)){
-                robot.inventario.almacenar(complemento);
-                System.out.println("recogido");
-                escenarioActual.recogerObjetoExtra(complemento);
-            }
-    		else  {System.out.println("No puedes recoger eso");	return;}
+    		}
+    		else  {System.out.println("No puedes recoger eso" + escenarioActual.numID + escenarioActual.objetos + escenarioActual.objetosEscenario + escenarioActual.nomEs);	return;}
     }
 
     public void interactuar(){
@@ -240,7 +232,8 @@ public class Accion {
             case "cerrar": escenarioActual.cerrarPuerta(); break;
             case "salir": if (escenarioActual.salir()){this.complemento = escenarioActual.direccionPuerta; mover();} break; //En caso de devolver true, hace el movimiento simulando subir una escalera
             case "entrar": if (escenarioActual.entrar()){this.complemento = escenarioActual.direccionPuerta; mover();} break;
-            case "mover": escenarioActual.mover(complemento);
+            case "mover": try {escenarioActual.moverObjeto(complemento);}catch (NullPointerException e){System.out.println("No veo eso que dices");} break;
+            case "saltar": escenarioActual.saltar(); if (escenarioActual.numID == 6){Accion tmp = new Accion("ir sur");}break;
         }
     }
     public int pelearComplemento(String complementoPelea){ //Regresa el daño basado en lo que el jugador use para atacar
@@ -256,6 +249,7 @@ public class Accion {
 
         if (complemento == null){
             System.out.println(">:¿Con qué?");
+            Scanner entradaEscanner = new Scanner(System.in);
             String entradaTeclado = entradaEscanner.nextLine();
             dañoExtra = pelearComplemento(entradaTeclado);
         }
@@ -291,7 +285,6 @@ public class Accion {
     public void Ubicarse(){
 
         posicionActual = robot.getEscenario(); //Obtiene la posicion actual del robot
-
         GenerarEscenario(); //Obtiene el escenario actual del robot
     }
 
@@ -299,23 +292,25 @@ public class Accion {
         switch (posicionActual)
         {
             case 1: escenarioActual = Demo.escenario1;
-                    posicionActual = 1;
-                    break;
+                    posicionActual = 1; break;
             case 2: escenarioActual = Demo.escenario2;
-                    posicionActual = 2;
-                    break;
+                    posicionActual = 2; break;
             case 3: escenarioActual = Demo.escenario3;
-                    posicionActual = 3;
-                    break;
+                    posicionActual = 3; break;
             case 4: escenarioActual = Demo.escenario4;
-                    posicionActual = 4;
-                    break;
+                    posicionActual = 4; break;
             case 5: escenarioActual = Demo.escenario5;
-                    posicionActual = 5;
-                    break;
+                    posicionActual = 5; break;
             case 6: escenarioActual = Demo.escenario6;
-                    posicionActual = 6;
-                    break;
+                    posicionActual = 6; break;
+            case 7: escenarioActual = Demo.escenario7;
+                    posicionActual = 7; break;
+            case 8: escenarioActual = Demo.escenario8;
+                    posicionActual = 8; break;
         }
+    }
+
+    public static void respuesta(String respuesta){
+        //Aqui va la funcion de la GUI a la que le tenemos que pasar como argumento el String respuesta
     }
 }
