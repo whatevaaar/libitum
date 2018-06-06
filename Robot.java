@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Robot {
-    static int vida=100;
-    public static int escenario = 2;
+    int vida=100;
+    public static int escenario = 7;
     Inventario inventario = new Inventario();
     static ArrayList<String> habilidades = new ArrayList<>();
     static int puntuacion;
@@ -24,5 +24,13 @@ public class Robot {
             case "tubo": return 5;
         }
         return 0;
+    }
+
+    public static boolean buscarHabilidad(String habilidad){
+        return habilidades.contains(habilidad);
+    }
+
+    public static void addHabilidad(String habilidad){
+        habilidades.add(habilidad);
     }
 } 
