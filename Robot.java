@@ -1,12 +1,10 @@
-package libitum;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Robot {
-    int vida=100;
-    public static int escenario = 7;
+    static int vida=100;
+    public static int escenario = 2;
     Inventario inventario = new Inventario();
     static ArrayList<String> habilidades = new ArrayList<>();
     static int puntuacion;
@@ -18,6 +16,8 @@ public class Robot {
     public void setEscenario(int numEsc) {escenario=numEsc;}
 
     public void setVida(int numVida) {vida=numVida;}
+
+    public void soltarObj(String obj) { inventario.quitar(obj); }
     
     public int generarDañoExtra(String arma) {
         switch(arma){
@@ -25,12 +25,11 @@ public class Robot {
         }
         return 0;
     }
-
     public static boolean buscarHabilidad(String habilidad){
-        return habilidades.contains(habilidad);
-    }
-
-    public static void addHabilidad(String habilidad){
-        habilidades.add(habilidad);
-    }
+         return habilidades.contains(habilidad);
+     }
+ 
+     public static void addHabilidad(String habilidad){
+         habilidades.add(habilidad);
+     }
 } 
