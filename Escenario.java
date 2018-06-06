@@ -260,6 +260,16 @@ public class Escenario {
             switch (direccion) {
                 case "norte":
                     noEscenario = 5;
+                case "sur": noEscenario = 7; break;
+            }
+         } else if(noEscenario == 7){
+             switch (direccion){
+                 case "este": noEscenario = 8; break;
+                 case "norte": noEscenario = 6; break;
+             }
+         } else if(noEscenario == 8){
+             switch (direccion){
+                 case "oeste": noEscenario =7; break;
                     break;
             }
         }
@@ -316,11 +326,12 @@ public class Escenario {
                     System.out.println("El fragmento de memoria hace que se activen algunos mecanismos de tu traje.");
                     System.out.println("Ahora puedes escalar muros de tamaño considerable.");
                     System.out.println("\nPuntuacion aumentada: +200");
-                    Robot.habilidades.add("salto");
+                    Robot.addHabilidad("saltar");
                     Robot.puntuacion +=20;}
                 else System.out.println("No puedes mover eso");
             }else continue;
         }
+         System.out.println("No veo eso que dices");
     }
 
 
@@ -373,5 +384,15 @@ public class Escenario {
         }
         System.out.println("No esta ese objeto");
     }
+    
+    public void saltar(){
+         if(this.numID == 6){
+             if (Robot.buscarHabilidad("saltar")){
+              this.salidaSur = true;
+              System.out.println("Saltas y alcanzas la grieta que está en el muro");
+              System.out.println("Con un poco de dificultad atraviesas la grieta.\n\n");
+              this.setDirecciones(false, true, false, true);
+             } else {System.out.println("Tu sistema de salto está dañado");}
+         }else {System.out.println("Es inncesario saltar en este lugar");}
 
 }
