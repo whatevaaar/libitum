@@ -18,8 +18,9 @@ public class Accion {
     private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda","diagnostico","soltar");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este", "izquierda","derecha");
     private final List<String> palabrasPeleaDA = Arrays.asList("mano", "manos", "puños","brazos"); //Desarmado
-
-    public static Robot robot = new Robot();
+    
+    private static Scanner entradaEscanner = new Scanner(System.in);
+    public static Robot robot;
     private String instruccion;
     private String verbo;
     private String complemento;
@@ -76,7 +77,6 @@ public class Accion {
         if(complemento == null){ //Verifica si existe un complemento despues del verbo de movimiento, de no ser así pregunta a donde se quiere mover
             System.out.println("¿A dónde quieres ir?");
             System.out.print(">: ");
-            Scanner entradaEscanner = new Scanner(System.in);
             String entradaTeclado = entradaEscanner.nextLine();
             instruccion = entradaTeclado;
             prepararString();
@@ -116,15 +116,37 @@ public class Accion {
     public void especiales(String esp){
         switch (esp){
             case "inventario": System.out.println(robot.inventario.mostrar()); break;
-            case "guardar": guardar(robot); break;
-            case "cargar": cargar(robot); break;
+            case "guardar": guardar(); break;
+            case "cargar": cargar(); break;
             case "ayuda": mensajeAyuda(); break;
             case "diagnostico": diagnosticar(); break;
+            case "soltar": soltar(); break;
         }
     }
-
+    
+    private void soltar() {
+        if (complemento == null){
+            System.out.println(">:¿Qué quieres soltar?");
+            String entradaTeclado = entradaEscanner.nextLine();
+            if(robot.inventario.existencia(entradaTeclado)){
+                int len = entradaTeclado.length();
+                robot.soltarObj(entradaTeclado);
+                escenarioActual.objetoSoltado(entradaTeclado);
+                System.out.println(entradaTeclado+" soltad"+(entradaTeclado.substring(len-1).equals("a")? "a":"o"));
+                return;
+            }
+            else{
+                System.out.println("No tienes "+entradaTeclado);           
+                return;}
+        }
+        if(robot.inventario.existencia(complemento)){
+        escenarioActual.objetoSoltado(complemento);
+        robot.soltarObj(complemento);
+        }
+        else{System.out.println("No tienes "+complemento);}
+} 
     public void diagnosticar() {
-        if (90 < robot.getVida()){System.out.println("Estás súper duper");}
+        if (90 < robot.getVida()){System.out.println("Estado de salud óptimo");}
         else if (80 < robot.getVida()){System.out.println("Estás no tan súper duper");}
         else if (60 < robot.getVida()){System.out.println("Buscar asistencia");}
         else if (40 < robot.getVida()){System.out.println("Buscar asistencia a la brevedad");}
@@ -141,7 +163,7 @@ public class Accion {
                             "";
         System.out.println(mensaje);
     }
-    public void guardar(Robot robot){
+    public void guardar(){
         
         String escenarioRobot = String.valueOf(robot.getEscenario());
         String vidaRobot = String.valueOf(robot.getVida());
@@ -151,17 +173,16 @@ public class Accion {
         escritor.println(escenarioRobot);
         escritor.println(vidaRobot);
         escritor.println(robot.inventario.codificar());
+        for (Escenario e : Demo.listaNiveles) { escritor.println(e.generarMetaDatos()); }
         escritor.close();  
         }
     
-    catch (java.io.FileNotFoundException ex)  {
-        System.out.println("Woops algo salió mal omg ");
-        }
+    catch (java.io.FileNotFoundException ex){   System.out.println("Woops algo salió mal omg ");  }
     System.out.println("¡Partida guardada!");
         
     }
 
-    public void cargar(Robot robot) {
+    public void cargar() {
         try{
 
             BufferedReader lector = new BufferedReader(new FileReader("save.txt"));
