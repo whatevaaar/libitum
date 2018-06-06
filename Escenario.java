@@ -270,7 +270,6 @@ public class Escenario {
          } else if(noEscenario == 8){
              switch (direccion){
                  case "oeste": noEscenario =7; break;
-                    break;
             }
         }
         return noEscenario;
@@ -394,5 +393,6 @@ public class Escenario {
               this.setDirecciones(false, true, false, true);
              } else {System.out.println("Tu sistema de salto está dañado");}
          }else {System.out.println("Es inncesario saltar en este lugar");}
+	}
 
 }

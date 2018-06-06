@@ -37,19 +37,19 @@ public class Demo {
     public static ArrayList<String> descEsc6 = new ArrayList<String>();
     public static Enemigo enemigo = new Enemigo("La mafia del poder",20,"Mira nada más\nun loco");
     public static Escenario escenario6 = new Escenario(6, "Muro", objEsc6, objInutilEsc6 ,descEsc6, enemigo);
--
--    //ESCENARIO 7
--    public static  ArrayList<String> objEsc7 = new ArrayList<>();
--    public static ArrayList<String> objInutilEsc7 = new ArrayList<>();
--    public static ArrayList<String> descEsc7 = new ArrayList<>();
--    public static Escenario escenario7 = new Escenario(7, "Basurero", objEsc7, objInutilEsc7,descEsc7);
--
--    //ESCENARIO 8
--    public static  ArrayList<String> objEsc8 = new ArrayList<>();
--    public static ArrayList<String> objInutilEsc8 = new ArrayList<>();
--    public static ArrayList<String> descEsc8 = new ArrayList<>();
--    public static Enemigo enemigo1 = new Enemigo("ARLOK-24", 20, "Robot hostil, te ataca abruptamente pero logras esquivarlo");
--    public static Escenario escenario8 = new Escenario(8, "Frente de la cabaña", objEsc8, objInutilEsc8,descEsc8, enemigo1);
+
+    //ESCENARIO 7
+    public static  ArrayList<String> objEsc7 = new ArrayList<>();
+    public static ArrayList<String> objInutilEsc7 = new ArrayList<>();
+    public static ArrayList<String> descEsc7 = new ArrayList<>();
+    public static Escenario escenario7 = new Escenario(7, "Basurero", objEsc7, objInutilEsc7,descEsc7);
+
+    //ESCENARIO 8
+    public static  ArrayList<String> objEsc8 = new ArrayList<>();
+    public static ArrayList<String> objInutilEsc8 = new ArrayList<>();
+    public static ArrayList<String> descEsc8 = new ArrayList<>();
+    public static Enemigo enemigo1 = new Enemigo("ARLOK-24", 20, "Robot hostil, te ataca abruptamente pero logras esquivarlo");
+    public static Escenario escenario8 = new Escenario(8, "Frente de la cabaña", objEsc8, objInutilEsc8,descEsc8, enemigo1);
 
     public static ArrayList<Escenario> listaNiveles = new ArrayList<Escenario>();
     
@@ -157,25 +157,33 @@ public class Demo {
         descEsc6.add("Sur del almacen");
         descEsc6.add("Te encuentras ante un enorme muro de concreto");
         descEsc6.add("Hay una grieta por donde podrías pasar, pero está muy alto");
-  
         escenario6.setDirecciones(true, false,false,false);
         escenario6.setNegativaMovimiento("No puedes saltar hasta la grieta, por ahora");
         escenario6.setDescripciones(descEsc6);
-        public static Escenario escenario6 = new Escenario(6, "Muro", objEsc6, objInutilEsc6 ,descEsc6, enemigo);
--
--    //ESCENARIO 7
--    public static  ArrayList<String> objEsc7 = new ArrayList<>();
--    public static ArrayList<String> objInutilEsc7 = new ArrayList<>();
--    public static ArrayList<String> descEsc7 = new ArrayList<>();
--    public static Escenario escenario7 = new Escenario(7, "Basurero", objEsc7, objInutilEsc7,descEsc7);
--
--    //ESCENARIO 8
--    public static  ArrayList<String> objEsc8 = new ArrayList<>();
--    public static ArrayList<String> objInutilEsc8 = new ArrayList<>();
--    public static ArrayList<String> descEsc8 = new ArrayList<>();
--    public static Enemigo enemigo1 = new Enemigo("ARLOK-24", 20, "Robot hostil, te ataca abruptamente pero logras esquivarlo");
--    public static Escenario escenario8 = new Escenario(8, "Frente de la cabaña", objEsc8, objInutilEsc8,descEsc8, enemigo1);
-+    public static Escenario escenario6= new Escenario(6, "Cerca", objEsc6, objInutilEsc6 ,descEsc6, enemigo);
+
+        //******ESCENARIO 7********** "Basurero"
+        descEsc7.add("Te encuentras en un vertedero de basura");
+        descEsc7.add("Hay desechos industriales y estructuras metálicas oxidadas por todas partes");
+        descEsc7.add("Hay un tubo oxidado en el suelo");
+        descEsc7.add("Al este alcanzas a ver una cabaña abandonada");
+        objInutilEsc7.add("Muro");
+        objInutilEsc7.add("Varios montones de basura");
+        objEsc7.add("tubo oxidado");
+        escenario7.setDirecciones(false, false, false, true);
+        escenario7.setNegativaMovimiento("No puedes ir por ahí, solo hay basura");
+        escenario7.setDescripciones(descEsc7);
+
+        //******ESCENARIO 8*********"CABAÑA BANDONADA"
+        descEsc8.add("Te encuentras frente a la cabaña, parece que no ha estado nadie aquí en bastante tiempo");
+        descEsc8.add("Un arbol de manzanas da sombra a la entrada");
+        descEsc8.add("La puerta está abierta");
+        objInutilEsc8.add("arbol");
+        escenario8.setDirecciones(false, false, true, true);
+        escenario8.setNegativaMovimiento("No hay nada interesante por ahí, solo es basura y césped");
+        escenario8.setDescripciones(descEsc8);
+
+
+    
         //Inicialización de lista de niveles
         listaNiveles.add(escenario1);
         listaNiveles.add(escenario2);
