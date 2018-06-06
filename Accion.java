@@ -10,7 +10,7 @@ import java.util.Random;
 public class Accion {
     //Listas de palabras
     private final List<String> palabrasMover = Arrays.asList("ir","caminar", "derrar","correr", "avanzar", "correr");
-    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar", "salir", "entrar", "mover");
+    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar", "salir", "saltar","entrar", "mover");
     private final List<String> palabrasPelear = Arrays.asList("golpear", "atacar", "pelear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
