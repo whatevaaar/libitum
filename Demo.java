@@ -143,7 +143,21 @@ public class Demo {
         escenario6.setDirecciones(true, false,false,false);
         escenario6.setNegativaMovimiento("No puedes escalar la cerca, por ahora");
         escenario6.setDescripciones(descEsc6);
-
+        public static Escenario escenario6 = new Escenario(6, "Muro", objEsc6, objInutilEsc6 ,descEsc6, enemigo);
+-
+-    //ESCENARIO 7
+-    public static  ArrayList<String> objEsc7 = new ArrayList<>();
+-    public static ArrayList<String> objInutilEsc7 = new ArrayList<>();
+-    public static ArrayList<String> descEsc7 = new ArrayList<>();
+-    public static Escenario escenario7 = new Escenario(7, "Basurero", objEsc7, objInutilEsc7,descEsc7);
+-
+-    //ESCENARIO 8
+-    public static  ArrayList<String> objEsc8 = new ArrayList<>();
+-    public static ArrayList<String> objInutilEsc8 = new ArrayList<>();
+-    public static ArrayList<String> descEsc8 = new ArrayList<>();
+-    public static Enemigo enemigo1 = new Enemigo("ARLOK-24", 20, "Robot hostil, te ataca abruptamente pero logras esquivarlo");
+-    public static Escenario escenario8 = new Escenario(8, "Frente de la cabaña", objEsc8, objInutilEsc8,descEsc8, enemigo1);
++    public static Escenario escenario6= new Escenario(6, "Cerca", objEsc6, objInutilEsc6 ,descEsc6, enemigo);
         //Inicialización de lista de niveles
         listaNiveles.add(escenario1);
         listaNiveles.add(escenario2);
