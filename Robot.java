@@ -25,4 +25,11 @@ public class Robot {
         }
         return 0;
     }
+    public static boolean buscarHabilidad(String habilidad){
+         return habilidades.contains(habilidad);
+     }
+ 
+     public static void addHabilidad(String habilidad){
+         habilidades.add(habilidad);
+     }
 } 
