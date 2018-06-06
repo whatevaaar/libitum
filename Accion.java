@@ -11,11 +11,11 @@ import java.util.Random;
 public class Accion {
     //Listas de palabras
     private final List<String> palabrasMover = Arrays.asList("ir","caminar", "derrar","correr", "avanzar", "correr");
-    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar", "salir", "entrar", "mover", "saltar","soltar");
+    private final List<String> palabrasInteractuar = Arrays.asList("abrir", "cerrar","subir", "bajar", "salir", "entrar", "mover", "saltar");
     private final List<String> palabrasPelear = Arrays.asList("golpear", "atacar", "pelear");
     private final List<String> palabrasObservar = Arrays.asList("observar", "mirar", "ver");
     private final List<String> palabrasRecolectar = Arrays.asList("recolectar", "recoger", "tomar","agarrar");
-    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda","diagnostico");
+    private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda","diagnostico","soltar");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este", "izquierda","derecha");
     private final List<String> palabrasPeleaDA = Arrays.asList("mano", "manos", "puños","brazos"); //Desarmado
 
