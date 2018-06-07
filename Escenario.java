@@ -1,3 +1,4 @@
+package libitum;
 import java.io.CharConversionException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -308,10 +309,9 @@ public class Escenario {
     //Verifica que es lo que quiere abrir el ususario, ya que puede ser una puerta u objetos especiales
     public void abrir(String comp,Scanner entradaEscanner){
         if (comp == null){
-            System.out.println("¿Que quieres mover?");
+            System.out.println("¿Que quieres abrir?");
             System.out.print(">: ");
             String entradaTeclado = entradaEscanner.nextLine();
-            entradaEscanner.close();
             comp = entradaTeclado;
         }
         for (String tmp: this.objetosEscenario) {
@@ -326,11 +326,10 @@ public class Escenario {
                     System.out.println("Ahora puedes escalar muros de tamaño considerable.");
                     System.out.println("\nPuntuacion aumentada: +200");
                     Robot.addHabilidad("saltar");
-                    Robot.puntuacion +=20;}
-                else System.out.println("No puedes mover eso");
+                    Robot.puntuacion +=20;} return;
             }else continue;
         }
-         System.out.println("No veo eso que dices");
+        System.out.println("No veo eso que dices");
     }
 
 
