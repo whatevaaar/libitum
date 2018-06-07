@@ -1,8 +1,8 @@
-package libitum;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.FileReader;
 import java.util.ArrayList;
+import javax.swing.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -19,21 +19,24 @@ public class Accion {
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este", "izquierda","derecha");
     private final List<String> palabrasPeleaDA = Arrays.asList("mano", "manos", "puños","brazos"); //Desarmado
 
-    private static Scanner entradaEscanner = new Scanner(System.in);
-
+    private consolita c;
     private Robot robot;
     private String instruccion;
     private String verbo;
     private String complemento;
     private int posicionActual;
     private Escenario escenarioActual = null;
+    private JTextField field;
+
 
     //Constructor que es llamado en el momento cada que el usuario ingresa un texto en la consola
-    public Accion(String instruccion, Robot robot){
+    public Accion(String instruccion, Robot robot, consolita c){        
         this.instruccion = instruccion;
         this.robot = robot;
+        this.c = c;
         this.prepararString();
         this.analizarEntrada();
+        
     }
     
     public Accion(String instruccion){
@@ -70,15 +73,15 @@ public class Accion {
 
         else if(palabrasInteractuar.contains(verbo)){interactuar();}
         
-        else{System.out.println("No entiendo esa acción");}
+        else{c.imprimir("No entiendo esa acción");}
 
     }
 
     public void mover(){ //Verifica si en el complemento existe una direccion cardinal, de ser asi realiza la acción.
         if(complemento == null){ //Verifica si existe un complemento despues del verbo de movimiento, de no ser así pregunta a donde se quiere mover
-            System.out.println("¿A dónde quieres ir?");
-            System.out.print(">: ");
-            String entradaTeclado = entradaEscanner.nextLine();
+            c.imprimir("¿A dónde quieres ir?");
+            c.imprimir(">: ");
+            String entradaTeclado = c.entrada();
             instruccion = entradaTeclado;
             prepararString();
             complemento = instruccion;
@@ -92,20 +95,20 @@ public class Accion {
                     Robot.escenario = escenarioActual.cambiarEscenario(posicionActual, direcciones.get(count));
                     posicionActual = Robot.escenario;
                     GenerarEscenario();
-                    System.out.println(escenarioActual.getDescripcion());
+                    c.imprimir(escenarioActual.getDescripcion());
                     return;
                 }else{  //Si intenta moverse en una direccion no válida y en esa direccion hay una puerta indica que esta está cerrada
                     if (escenarioActual.checarExistenciaObjetosRelleno("puerta")){
                         String direccion = direcciones.get(count);
                         if (direccion == "izquierda"){ direccion = "oeste";} else if (direccion == "derecha"){direccion = "este";} //Convierte la direccion IZQUIERDA o DERECHA en una direccion cardinal
                         if (escenarioActual.direccionPuerta == direccion){
-                            System.out.println("Puerta cerrada"); break;
-                        }else {System.out.println(escenarioActual.getNegativaMovimiento()); break;}
-                    }else {System.out.println(escenarioActual.getNegativaMovimiento()); break;}
+                            c.imprimir("Puerta cerrada"); break;
+                        }else {c.imprimir(escenarioActual.getNegativaMovimiento()); break;}
+                    }else {c.imprimir(escenarioActual.getNegativaMovimiento()); break;}
                 }
                 } else {
                 if (count == direcciones.size() - 1) { // En caso de no envecontrar una coincidencia en esa iteracion, verifica si son todas las palabras de direccion
-                    System.out.println("No entiendo a donde quieres ir, prueba con una direccion cardinal");
+                    c.imprimir("No entiendo a donde quieres ir, prueba con una direccion cardinal");
                 } else { //Si aún hay palabras e        Random rand = new Random();
                     continue;
                 }
@@ -116,7 +119,7 @@ public class Accion {
 
     public void especiales(String esp){
         switch (esp){
-            case "inventario": System.out.println(robot.inventario.mostrar()); break;
+            case "inventario": c.imprimir(robot.inventario.mostrar()); break;
             case "guardar": guardar(robot); break;
             case "cargar": cargar(); break;
             case "ayuda": mensajeAyuda(); break;
@@ -129,31 +132,31 @@ public class Accion {
 
     private void soltar() {
         if (complemento == null){
-            System.out.println(">:¿Qué quieres soltar?");
-            String entradaTeclado = entradaEscanner.nextLine();
+            c.imprimir(">:¿Qué quieres soltar?");
+            String entradaTeclado = c.entrada();
             if(robot.inventario.existencia(entradaTeclado)){
                 int len = entradaTeclado.length();
                 robot.soltarObj(entradaTeclado);
                 escenarioActual.objetoSoltado(entradaTeclado);
-                System.out.println(entradaTeclado+" soltad"+(entradaTeclado.substring(len-1).equals("a")? "a":"o"));
+                c.imprimir(entradaTeclado+" soltad"+(entradaTeclado.substring(len-1).equals("a")? "a":"o"));
                 return;
             }
             else{
-                System.out.println("No tienes "+entradaTeclado);           
+                c.imprimir("No tienes "+entradaTeclado);           
                 return;}
         }
         if(robot.inventario.existencia(complemento)){
         escenarioActual.objetoSoltado(complemento);
         robot.soltarObj(complemento);
         }
-        else{System.out.println("No tienes "+complemento);}
+        else{c.imprimir("No tienes "+complemento);}
 }     
 
     public void diagnosticar() {
-        if (90 < robot.getVida()){System.out.println("Estado de salud óptimo");}
-        else if (80 < robot.getVida()){System.out.println("Estás no tan súper duper");}
-        else if (60 < robot.getVida()){System.out.println("Buscar asistencia");}
-        else if (40 < robot.getVida()){System.out.println("Buscar asistencia a la brevedad");}
+        if (90 < robot.getVida()){c.imprimir("Estado de salud óptimo");}
+        else if (80 < robot.getVida()){c.imprimir("Estás no tan súper duper");}
+        else if (60 < robot.getVida()){c.imprimir("Buscar asistencia");}
+        else if (40 < robot.getVida()){c.imprimir("Buscar asistencia a la brevedad");}
 
     }
     public void mensajeAyuda() {
@@ -165,7 +168,7 @@ public class Accion {
                         "guardar : guarda partida\ncargar : cargar partida\n"+
                         "inventario : muestra items de tu inventario\nsalir : salir del juego"+
                             "";
-        System.out.println(mensaje);
+        c.imprimir(mensaje);
     }
     
     public void guardar(Robot robot){
@@ -180,8 +183,8 @@ public class Accion {
         escritor.close();  
         }
         
-        catch (java.io.FileNotFoundException ex){   System.out.println("Woops algo salió mal omg ");  }
-        System.out.println("¡Partida guardada!");
+        catch (java.io.FileNotFoundException ex){   c.imprimir("Woops algo salió mal omg ");  }
+        c.imprimir("¡Partida guardada!");
     }
 
     public void cargar() {
@@ -198,7 +201,7 @@ public class Accion {
             }catch (Exception e){//Manejo de excepción
               System.err.println("Archivo de guardado no encontrado");
             }
-            System.out.println("¡Partida cargada exitosamente!");
+            c.imprimir("¡Partida cargada exitosamente!");
     }
 
     public void cargarEscenarios(BufferedReader lector) {
@@ -210,12 +213,14 @@ public class Accion {
     }
 
     public void observar(){
+            c.imprimir("vivo");
         if (complemento == null){
             Ubicarse();
-            System.out.println(escenarioActual.getDescripcion());
+            c.imprimir(String.valueOf(robot.getEscenario()));                     
+            c.imprimir(escenarioActual.getDescripcion());
             return;
         }else {
-            System.out.println("El objeto tiene las sig caracteristicas: ");
+            c.imprimir("El objeto tiene las sig caracteristicas: ");
             return;
         }
     }
@@ -223,47 +228,47 @@ public class Accion {
     public void recolectar(){ //Método para almacenar en el inventario
     		if(escenarioActual.checarExistencia(complemento))	{
     			robot.inventario.almacenar(complemento);
-    			System.out.println("recogido");
+    			c.imprimir("recogido");
                 escenarioActual.recogerObjeto(complemento);
             	return;
             }
             
             else if(escenarioActual.checarExistenciaObjExtra(complemento)){
                 robot.inventario.almacenar(complemento);
-                System.out.println("recogido");
+                c.imprimir("recogido");
                 escenarioActual.recogerObjetoExtra(complemento);
             }
-    		else  {System.out.println("No puedes recoger eso");	return;}
+    		else  {c.imprimir("No puedes recoger eso");	return;}
     }
 
     public void interactuar(){
         Ubicarse();
         switch (verbo){
             case "subir": if (escenarioActual.checarExistenciaObjetosRelleno("escalera")){escenarioActual.salidaNorte = true; complemento = "norte"; mover();}
-                else {System.out.println("No hay ninguna escalera");} break;
+                else {c.imprimir("No hay ninguna escalera");} break;
             case "bajar": if (escenarioActual.checarExistenciaObjetosRelleno("escalera")){escenarioActual.salidaSur = true; complemento = "sur"; mover();}
-                else {System.out.println("No hay ninguna escalera");} break;
-            case "abrir": escenarioActual.abrir(complemento, entradaEscanner); break;
-            case "cerrar": escenarioActual.cerrarPuerta(); break;
-            case "salir": if (escenarioActual.salir()){this.complemento = escenarioActual.direccionPuerta; mover();} break; //En caso de devolver true, hace el movimiento simulando subir una escalera
-            case "entrar": if (escenarioActual.entrar()){this.complemento = escenarioActual.direccionPuerta; mover();} break;
-            case "mover": escenarioActual.mover(complemento);
+                else {c.imprimir("No hay ninguna escalera");} break;
+            case "abrir": escenarioActual.abrir(complemento,c); break;
+            case "cerrar": escenarioActual.cerrarPuerta(c); break;
+            case "salir": if (escenarioActual.salir(c)){this.complemento = escenarioActual.direccionPuerta; mover();} break; //En caso de devolver true, hace el movimiento simulando subir una escalera
+            case "entrar": if (escenarioActual.entrar(c)){this.complemento = escenarioActual.direccionPuerta; mover();} break;
+            case "mover": escenarioActual.mover(complemento,c);
         }
     }
     public int pelearComplemento(String complementoPelea){ //Regresa el daño basado en lo que el jugador use para atacar
         int dañoExtra;
         if (palabrasPeleaDA.contains(complementoPelea)){ dañoExtra = 0;}
-        else if (!robot.inventario.existencia(complementoPelea))  {System.out.println("No tienes" + complementoPelea); dañoExtra = 0;}
+        else if (!robot.inventario.existencia(complementoPelea))  {c.imprimir("No tienes" + complementoPelea); dañoExtra = 0;}
         else{ dañoExtra = robot.generarDañoExtra(complementoPelea); }
         return dañoExtra;
     }
     public void pelear(){
         int dañoExtra = 0;
-        if (!escenarioActual.getExistEnemigos()){   System.out.println("No hay nadie con quién pelear aquí");   return;}
+        if (!escenarioActual.getExistEnemigos()){   c.imprimir("No hay nadie con quién pelear aquí");   return;}
 
         if (complemento == null){
-            System.out.println(">:¿Con qué?");
-            String entradaTeclado = entradaEscanner.nextLine();
+            c.imprimir(">:¿Con qué?");
+            String entradaTeclado = c.entrada();
             dañoExtra = pelearComplemento(entradaTeclado);
         }
         else if(complemento.contains(" ")){
@@ -277,21 +282,21 @@ public class Accion {
         int vidaEnem = enemigo.getVida() - (rand.nextInt(10) + 1) - dañoExtra;
         int vidaRobot = robot.getVida() - enemigo.atacar();
         if (vidaEnem > 0){
-            System.out.println("Atacaste a " + enemigo.getNombre());
+            c.imprimir("Atacaste a " + enemigo.getNombre());
             enemigo.setVida(vidaEnem);
-            System.out.println("¡"+enemigo.getNombre()+" te ha atacado!");
+            c.imprimir("¡"+enemigo.getNombre()+" te ha atacado!");
             if (vidaRobot < 0){
                 morir();
             }
             return; 
         }
-        System.out.println("Matataste a " + enemigo.getNombre());
+        c.imprimir("Matataste a " + enemigo.getNombre());
         enemigo.morir();
         return;
     }
 
     public void morir() {
-        System.out.println("Haz muerto");
+        c.imprimir("Haz muerto");
         // Penalización o whatevar
 
     }

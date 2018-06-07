@@ -1,7 +1,10 @@
-package libitum;
+import java.awt.Color;
+import javax.swing.*;
+import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Demo {
+    public static consolita consola;
     //ESCENARIO 1
     public static ArrayList<String> objEsc1 = new ArrayList<String>();
     public static ArrayList<String> objInutilEsc1 = new ArrayList<String>();
@@ -54,9 +57,12 @@ public class Demo {
 
     public static ArrayList<Escenario> listaNiveles = new ArrayList<Escenario>();
     
-    public Demo(){
-        Bienvenida();
+    public Demo(consolita c){
+        this.consola = c;
         inicializarObjetos();
+        c.imprimir(Bienvenida());
+        
+        
     }
 
     public static void inicializarObjetos(){
@@ -194,9 +200,10 @@ public class Demo {
         listaNiveles.add(escenario6);
     }
 
-    public static void Bienvenida(){
-        System.out.println("LIBITUM un juego que probará tu paciencia, imaginación y habilidades. \nMuchos han iniciado esta aventura y han fallado. Suerte.");
-        System.out.println(escenario2.getDescripcion());
-        System.out.println("Escribe \"Ayuda\" en cualquier momento para recibir informacion");
+    public static String Bienvenida(){
+        return "LIBITUM un juego que probará tu paciencia, imaginación y habilidades. \n"
+                +"Muchos han iniciado esta aventura y han fallado. Suerte.\n"
+        +"Escribe \"Ayuda\" en cualquier momento para recibir informacion"
+                +escenario2.getDescripcion();
     }
 }

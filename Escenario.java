@@ -1,4 +1,3 @@
-package libitum;
 import java.io.CharConversionException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -278,71 +277,71 @@ public class Escenario {
 
     //Verifica primeramente si existe una puerta en el escenario, después verifica si la puerta está abierta
     //Devuelve true solo en caso de que ambas afirmaciones sean verdaderas
-    public boolean salir() {
+    public boolean salir(consolita c) {
         boolean salida = false;
         if (direccionPuerta != null) {
             if (verificarMovimiento(direccionPuerta)) {
                 salida = true;
             } else {
-                System.out.println("La puerta está cerrada");
+                c.imprimir("La puerta está cerrada");
             }
         } else {
-            System.out.println("No estás en ningún sitio de donde se deba salir");
+            c.imprimir("No estás en ningún sitio de donde se deba salir");
         }
         return salida;
     }
 
-    public boolean entrar(){
+    public boolean entrar(consolita c){
         boolean entrada = false;
         if (direccionPuerta != null) {
             if (verificarMovimiento(direccionPuerta)) {
                 entrada = true;
             } else {
-                System.out.println("La puerta está cerrada");
+                c.imprimir("La puerta está cerrada");
             }
         } else {
-            System.out.println("No puedes entrar ahí");
+            c.imprimir("No puedes entrar ahí");
         }
         return entrada;
     }
 
     //Verifica que es lo que quiere abrir el ususario, ya que puede ser una puerta u objetos especiales
-    public void abrir(String comp,Scanner entradaEscanner){
+    public void abrir(String comp,consolita c){
         if (comp == null){
-            System.out.println("¿Que quieres abrir?");
-            System.out.print(">: ");
-            String entradaTeclado = entradaEscanner.nextLine();
+            c.imprimir("¿Que quieres abrir?");
+            c.imprimir(">: ");
+            String entradaTeclado = c.entrada();
             comp = entradaTeclado;
         }
         for (String tmp: this.objetosEscenario) {
             if (comp.contains(tmp)){
-                if (tmp == "puerta"){this.abrirPuerta();}
+                if (tmp == "puerta"){this.abrirPuerta(c);}
                 else if(tmp == "compartimento"){
-                    System.out.println("Encontraste el primer fragmento de memoria");
-                    System.out.println("\nInsertas el fragmento de memoria en tu sistema y encuentras información confusa, " +
+                    c.imprimir("Encontraste el primer fragmento de memoria");
+                    c.imprimir("\nInsertas el fragmento de memoria en tu sistema y encuentras información confusa, " +
                                     "aparentemente son archivos de produccion de androides en masa de una comporación llamada \n\"TecnoAsia\" " +
                                     "los documentos están firmados por un tal \"ADAM WEESTWOOD\", el nombre te parece familiar, pero no logras recordar.");
-                    System.out.println("El fragmento de memoria hace que se activen algunos mecanismos de tu traje.");
-                    System.out.println("Ahora puedes escalar muros de tamaño considerable.");
-                    System.out.println("\nPuntuacion aumentada: +200");
+                    c.imprimir("El fragmento de memoria hace que se activen algunos mecanismos de tu traje.");
+                    c.imprimir("Ahora puedes escalar muros de tamaño considerable.");
+                    c.imprimir("\nPuntuacion aumentada: +200");
                     Robot.addHabilidad("saltar");
                     Robot.puntuacion +=20;} return;
             }else continue;
         }
-        System.out.println("No veo eso que dices");
+        c.imprimir("No veo eso que dices");
     }
 
 
     //Verifica la existencia de una puerta, de ser así, activa la salida según la direccion donde esté colocada la puerta
-    public void abrirPuerta() {
+    public void abrirPuerta(consolita c) {
             if (this.checarExistenciaObjetosRelleno("puerta")) {
                 if (this.necesitaLlave){  //Si la puerta necesita una llave para poder abrirse, revisa si lleva la llave, de ser así la abre, caso contrario indica que la necesita
                     if (Inventario.existencia("tarjeta")){
                         
-                        System.out.println("Usando tarjeta\nPuerta abierta");
-                    }else{System.out.println("No puedes abrir esta puerta, necesitas la tarjeta de acceso"); return;}
-            }else {System.out.println("Puerta abierta");}
-        }else {System.out.println("No hay ninguna puerta"); return;}
+                        c.imprimir("Usando tarjeta\nPuerta abierta");
+                    }else{c.imprimir("No puedes abrir esta puerta, necesitas la tarjeta de acceso"); return;}
+            }else {c.imprimir("Puerta abierta");}
+        }else {c.imprimir("No hay ninguna puerta"); return;}
         abrirDirecPuerta();
     }
 
@@ -355,7 +354,7 @@ public class Escenario {
         }
     }
 
-    public void cerrarPuerta(){
+    public void cerrarPuerta(consolita c){
         if (this.checarExistenciaObjetosRelleno("puerta")) {
             switch (direccionPuerta) {
                 case "norte": salidaNorte = false; break;
@@ -363,16 +362,16 @@ public class Escenario {
                 case "este": salidaEste = false; break;
                 case "oeste": salidaOeste = false; break;
             }
-            System.out.println("Puerta cerrada");
-        } else {System.out.println("No hay ninguna puerta"); }
+            c.imprimir("Puerta cerrada");
+        } else {c.imprimir("No hay ninguna puerta"); }
     }
 
     //Realiza el movimiento de algun objeto del escenario
-    public void mover(String comp){
+    public void mover(String comp,consolita c){
         for (String tmp: this.objetosEscenario) {
             if (comp.contains(tmp)){
                 if (this.numID == 2){
-                    System.out.println("Moviendo alfombra\nEncontraste un compartimento secreto, tiene un viejo candado consumido por el óxido, se ve falcil de abrir");
+                    c.imprimir("Moviendo alfombra\nEncontraste un compartimento secreto, tiene un viejo candado consumido por el óxido, se ve falcil de abrir");
                     this.objetosEscenario.add("compartimento");
                     this.descripciones.add("Hay un compartimento secreto en el suelo al descubierto");
                     return;
@@ -380,18 +379,18 @@ public class Escenario {
                 }
             }else continue;
         }
-        System.out.println("No esta ese objeto");
+        c.imprimir("No esta ese objeto");
     }
     
-    public void saltar(){
+    public void saltar(consolita c){
          if(this.numID == 6){
              if (Robot.buscarHabilidad("saltar")){
               this.salidaSur = true;
-              System.out.println("Saltas y alcanzas la grieta que está en el muro");
-              System.out.println("Con un poco de dificultad atraviesas la grieta.\n\n");
+              c.imprimir("Saltas y alcanzas la grieta que está en el muro");
+              c.imprimir("Con un poco de dificultad atraviesas la grieta.\n\n");
               this.setDirecciones(false, true, false, true);
-             } else {System.out.println("Tu sistema de salto está dañado");}
-         }else {System.out.println("Es inncesario saltar en este lugar");}
+             } else {c.imprimir("Tu sistema de salto está dañado");}
+         }else {c.imprimir("Es inncesario saltar en este lugar");}
 	}
 
 }
