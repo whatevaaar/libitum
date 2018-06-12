@@ -1,3 +1,5 @@
+package libitum;
+
 import java.util.ArrayList;
 public class Inventario {
     public static ArrayList<String> objetos = new ArrayList<>();

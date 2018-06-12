@@ -1,10 +1,15 @@
+package libitum;
+
+import libitum.Robot;
+import libitum.Accion;
+import libitum.Demo;
 import javax.swing.*;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import java.util.Scanner;
 import java.awt.*;
-
+import org.netbeans.lib.awtextra.AbsoluteLayout;
 
 public class consolita extends javax.swing.JFrame {
 
@@ -52,7 +57,7 @@ public class consolita extends javax.swing.JFrame {
         salida.setForeground(new java.awt.Color(102, 102, 51));
         salida.setColumns(20);
         salida.setEditable(false);
-        getContentPane().add(salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 850, 150));
+        getContentPane().add(salida, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, 850, 250));
 
         //Entrada de texto
         txtArea.setColumns(20);
@@ -60,7 +65,7 @@ public class consolita extends javax.swing.JFrame {
         txtArea.setForeground(new java.awt.Color(153, 0, 51));
         txtArea.setRows(5);
         jScrollPane1.setViewportView(txtArea);
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 350, 850, 210));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 450, 850, 100));
          
         //Botón cerrar
         JB1.setIcon(new javax.swing.ImageIcon(getClass().getResource("cerrar.png"))); // NOI18N

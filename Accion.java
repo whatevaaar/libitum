@@ -1,3 +1,6 @@
+package libitum;
+
+import libitum.Demo;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.FileReader;
@@ -18,7 +21,9 @@ public class Accion {
     private final List<String> palabrasEspeciales= Arrays.asList("inventario","guardar","cargar","ayuda","diagnostico","soltar");
     private final List<String> direcciones = Arrays.asList("norte", "sur", "oeste", "este", "izquierda","derecha");
     private final List<String> palabrasPeleaDA = Arrays.asList("mano", "manos", "puños","brazos"); //Desarmado
-
+    
+    private static Scanner entradaEscanner = new Scanner(System.in);
+    
     private consolita c;
     private Robot robot;
     private String instruccion;
@@ -252,7 +257,8 @@ public class Accion {
             case "cerrar": escenarioActual.cerrarPuerta(c); break;
             case "salir": if (escenarioActual.salir(c)){this.complemento = escenarioActual.direccionPuerta; mover();} break; //En caso de devolver true, hace el movimiento simulando subir una escalera
             case "entrar": if (escenarioActual.entrar(c)){this.complemento = escenarioActual.direccionPuerta; mover();} break;
-            case "mover": escenarioActual.mover(complemento,c);
+            case "mover": escenarioActual.mover(complemento,c); break;
+            case "saltar": escenarioActual.saltar(c, complemento); break;
         }
     }
     public int pelearComplemento(String complementoPelea){ //Regresa el daño basado en lo que el jugador use para atacar

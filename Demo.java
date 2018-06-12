@@ -1,3 +1,5 @@
+package libitum;
+
 import java.awt.Color;
 import javax.swing.*;
 import java.util.Scanner;
@@ -34,13 +36,12 @@ public class Demo {
     public static ArrayList<String> objInutilEsc5 = new ArrayList<String>();
     public static ArrayList<String> descEsc5 = new ArrayList<String>();
     public static Escenario escenario5= new Escenario(5, "Carretera", objEsc5, objInutilEsc5, descEsc5);
-
+    
     //ESCENARIO 6 PRUEBA PELEA
     public static ArrayList<String> objEsc6 = new ArrayList<String>();
     public static ArrayList<String> objInutilEsc6 = new ArrayList<String>();
     public static ArrayList<String> descEsc6 = new ArrayList<String>();
-    public static Enemigo enemigo = new Enemigo("La mafia del poder",20,"Mira nada más\nun loco");
-    public static Escenario escenario6 = new Escenario(6, "Muro", objEsc6, objInutilEsc6 ,descEsc6, enemigo);
+    public static Escenario escenario6 = new Escenario(6, "Muro", objEsc6, objInutilEsc6 ,descEsc6);
 
     //ESCENARIO 7
     public static  ArrayList<String> objEsc7 = new ArrayList<>();
@@ -52,8 +53,7 @@ public class Demo {
     public static  ArrayList<String> objEsc8 = new ArrayList<>();
     public static ArrayList<String> objInutilEsc8 = new ArrayList<>();
     public static ArrayList<String> descEsc8 = new ArrayList<>();
-    public static Enemigo enemigo1 = new Enemigo("ARLOK-24", 20, "Robot hostil, te ataca abruptamente pero logras esquivarlo");
-    public static Escenario escenario8 = new Escenario(8, "Frente de la cabaña", objEsc8, objInutilEsc8,descEsc8, enemigo1);
+    public static Escenario escenario8 = new Escenario(8, "Frente de la cabaña", objEsc8, objInutilEsc8,descEsc8);
 
     public static ArrayList<Escenario> listaNiveles = new ArrayList<Escenario>();
     
@@ -91,7 +91,7 @@ public class Demo {
         objInutilEsc2.add("puerta");
         objInutilEsc2.add("alfombra");
 
-        descEsc2.add("Te encuentras en la planta baja de un almacén.");
+        descEsc2.add("\nTe encuentras en la planta baja de un almacén.");
         descEsc2.add("A la derecha hay una puerta abierta ");
         descEsc2.add("Hay  unas escaleras, que van a la parte alta del almacén");
         descEsc2.add("Hay una alfombra color escarlata en el centro");

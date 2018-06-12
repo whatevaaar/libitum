@@ -1,3 +1,5 @@
+package libitum;
+
 import java.io.CharConversionException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -317,13 +319,19 @@ public class Escenario {
             if (comp.contains(tmp)){
                 if (tmp == "puerta"){this.abrirPuerta(c);}
                 else if(tmp == "compartimento"){
-                    c.imprimir("Encontraste el primer fragmento de memoria");
-                    c.imprimir("\nInsertas el fragmento de memoria en tu sistema y encuentras información confusa, " +
-                                    "aparentemente son archivos de produccion de androides en masa de una comporación llamada \n\"TecnoAsia\" " +
-                                    "los documentos están firmados por un tal \"ADAM WEESTWOOD\", el nombre te parece familiar, pero no logras recordar.");
-                    c.imprimir("El fragmento de memoria hace que se activen algunos mecanismos de tu traje.");
-                    c.imprimir("Ahora puedes escalar muros de tamaño considerable.");
-                    c.imprimir("\nPuntuacion aumentada: +200");
+                    c.imprimir("Encontraste el primer fragmento de memoria" + 
+                            "\nInsertas el fragmento de memoria en tu sistema y encuentras información confusa," +
+                            "\nEl fragmento de memoria hace que se activen algunos mecanismos de tu traje." +
+                            "\naparentemente son archivos de produccion de androides en masa de una comporación llamada \"TecnoAsia\" " + 
+                            "\nlos documentos están firmados por un tal \"ADAM WEESTWOOD\", \nel nombre te parece familiar, pero no logras recordar." + 
+                            "\nAhora puedes escalar muros de tamaño considerable." +
+                            "\nPuntuacion aumentada: +200");
+                    //c.imprimir("\nInsertas el fragmento de memoria en tu sistema y encuentras información confusa,");
+                    //c.imprimir("El fragmento de memoria hace que se activen algunos mecanismos de tu traje.");
+                    //c.imprimir("aparentemente son archivos de produccion de androides en masa de una comporación llamada \n\"TecnoAsia\" ");
+                    //c.imprimir("los documentos están firmados por un tal \"ADAM WEESTWOOD\", el nombre te parece familiar, pero no logras recordar.");
+                    //c.imprimir("Ahora puedes escalar muros de tamaño considerable.");
+                    //c.imprimir("\nPuntuacion aumentada: +200");
                     Robot.addHabilidad("saltar");
                     Robot.puntuacion +=20;} return;
             }else continue;
@@ -382,15 +390,32 @@ public class Escenario {
         c.imprimir("No esta ese objeto");
     }
     
-    public void saltar(consolita c){
-         if(this.numID == 6){
-             if (Robot.buscarHabilidad("saltar")){
-              this.salidaSur = true;
-              c.imprimir("Saltas y alcanzas la grieta que está en el muro");
-              c.imprimir("Con un poco de dificultad atraviesas la grieta.\n\n");
-              this.setDirecciones(false, true, false, true);
-             } else {c.imprimir("Tu sistema de salto está dañado");}
-         }else {c.imprimir("Es inncesario saltar en este lugar");}
-	}
+    public void saltar(consolita c, String comp){
+         Escenario temp;
+            if(this.numID == 6){
+                if (Robot.buscarHabilidad("saltar")){
+                    this.salidaSur = true;
+                    c.imprimir("Saltas y alcanzas la grieta que está en el muro" +
+                    "\nCon un poco de dificultad atraviesas la grieta.\n\n");
+                    this.setDirecciones(false, true, false, true);
+                    this.setNegativaMovimiento("No puedes cruzar la grieta caminando, debes saltar");
+                    temp = this;
+                    Accion tmp = new Accion("ir sur");
+                    temp.setDirecciones(false,false, false, true);
+                } else {c.imprimir("Tu sistema de salto está dañado");}
+            }else if (this.numID == 7){
+                if (Robot.buscarHabilidad("saltar")){
+                    this.salidaNorte = true;
+                    c.imprimir("Saltas y alcanzas la grieta que está en el muro" +
+                    "Con un poco de dificultad atraviesas la grieta.\n\n");
+                    this.setDirecciones(true, false, false, true);
+                    temp = this;
+                    Accion tmp = new Accion("ir norte");
+                    temp.setDirecciones(false,false, false, true);
+                } else {c.imprimir("Tu sistema de salto está dañado");}
+            }
 
+            else {c.imprimir("Es inncesario saltar en este lugar");}
+
+}
 }
